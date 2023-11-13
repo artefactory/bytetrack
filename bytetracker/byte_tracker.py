@@ -1,5 +1,5 @@
 import numpy as np
-import torch
+
 from bytetracker import matching
 from bytetracker.basetrack import BaseTrack, TrackState
 from bytetracker.kalman_filter import KalmanFilter
@@ -7,16 +7,17 @@ from bytetracker.kalman_filter import KalmanFilter
 
 def xywh2xyxy(x):
     # Convert nx4 boxes from [x, y, w, h] to [x1, y1, x2, y2] where xy1=top-left, xy2=bottom-right
-    y = x.clone() if isinstance(x, torch.Tensor) else np.copy(x)
+    y = np.copy(x)
     y[:, 0] = x[:, 0] - x[:, 2] / 2  # top left x
     y[:, 1] = x[:, 1] - x[:, 3] / 2  # top left y
     y[:, 2] = x[:, 0] + x[:, 2] / 2  # bottom right x
     y[:, 3] = x[:, 1] + x[:, 3] / 2  # bottom right y
     return y
 
+
 def xyxy2xywh(x):
     # Convert nx4 boxes from [x1, y1, x2, y2] to [x, y, w, h] where xy1=top-left, xy2=bottom-right
-    y = x.clone() if isinstance(x, torch.Tensor) else np.copy(x)
+    y = np.copy(x)
     y[:, 0] = (x[:, 0] + x[:, 2]) / 2  # x center
     y[:, 1] = (x[:, 1] + x[:, 3]) / 2  # y center
     y[:, 2] = x[:, 2] - x[:, 0]  # width
@@ -28,7 +29,6 @@ class STrack(BaseTrack):
     shared_kalman = KalmanFilter()
 
     def __init__(self, tlwh, score, cls):
-
         # wait activate
         self._tlwh = np.asarray(tlwh, dtype=float)
         self.kalman_filter = None
@@ -53,7 +53,9 @@ class STrack(BaseTrack):
             for i, st in enumerate(stracks):
                 if st.state != TrackState.Tracked:
                     multi_mean[i][7] = 0
-            multi_mean, multi_covariance = STrack.shared_kalman.multi_predict(multi_mean, multi_covariance)
+            multi_mean, multi_covariance = STrack.shared_kalman.multi_predict(
+                multi_mean, multi_covariance
+            )
             for i, (mean, cov) in enumerate(zip(multi_mean, multi_covariance)):
                 stracks[i].mean = mean
                 stracks[i].covariance = cov
@@ -98,7 +100,9 @@ class STrack(BaseTrack):
         self.cls = new_track.cls
 
         new_tlwh = new_track.tlwh
-        self.mean, self.covariance = self.kalman_filter.update(self.mean, self.covariance, self.tlwh_to_xyah(new_tlwh))
+        self.mean, self.covariance = self.kalman_filter.update(
+            self.mean, self.covariance, self.tlwh_to_xyah(new_tlwh)
+        )
         self.state = TrackState.Tracked
         self.is_activated = True
 
@@ -188,10 +192,6 @@ class BYTETracker(object):
         confs = dets[:, 4]
         clss = dets[:, 5]
 
-        classes = clss.numpy()
-        xyxys = xyxys.numpy()
-        confs = confs.numpy()
-
         remain_inds = confs > self.track_thresh
         inds_low = confs > 0.1
         inds_high = confs < self.track_thresh
@@ -204,8 +204,8 @@ class BYTETracker(object):
         scores_keep = confs[remain_inds]
         scores_second = confs[inds_second]
 
-        clss_keep = classes[remain_inds]
-        clss_second = classes[remain_inds]
+        clss_keep = clss[remain_inds]
+        clss_second = clss[remain_inds]
 
         if len(dets) > 0:
             """Detections"""
@@ -245,10 +245,14 @@ class BYTETracker(object):
         # association the untrack to the low score detections
         if len(dets_second) > 0:
             """Detections"""
-            detections_second = [STrack(xywh, s, c) for (xywh, s, c) in zip(dets_second, scores_second, clss_second)]
+            detections_second = [
+                STrack(xywh, s, c) for (xywh, s, c) in zip(dets_second, scores_second, clss_second)
+            ]
         else:
             detections_second = []
-        r_tracked_stracks = [strack_pool[i] for i in u_track if strack_pool[i].state == TrackState.Tracked]
+        r_tracked_stracks = [
+            strack_pool[i] for i in u_track if strack_pool[i].state == TrackState.Tracked
+        ]
         dists = matching.iou_distance(r_tracked_stracks, detections_second)
         matches, u_track, u_detection_second = matching.linear_assignment(dists, thresh=0.5)
         for itracked, idet in matches:
@@ -303,7 +307,9 @@ class BYTETracker(object):
         self.lost_stracks.extend(lost_stracks)
         self.lost_stracks = sub_stracks(self.lost_stracks, self.removed_stracks)
         self.removed_stracks.extend(removed_stracks)
-        self.tracked_stracks, self.lost_stracks = remove_duplicate_stracks(self.tracked_stracks, self.lost_stracks)
+        self.tracked_stracks, self.lost_stracks = remove_duplicate_stracks(
+            self.tracked_stracks, self.lost_stracks
+        )
         # get scores of lost tracks
         output_stracks = [track for track in self.tracked_stracks if track.is_activated]
         outputs = []
