@@ -1,6 +1,6 @@
 <div align="center">
 <h2>
-  ByteTrack-Pip: Packaged version of the ByteTrack repository  
+  ByteTrack-Pip: Packaged version of the ByteTrack repository
 </h2>
 <h4>
     <img width="700" alt="teaser" src="assets/demo.gif">
@@ -19,7 +19,7 @@ This repo is a packaged version of the [ByteTrack](https://github.com/ifzhang/By
 pip install bytetracker
 ```
 
-### Detection Model + ByteTrack 
+### Detection Model + ByteTrack
 ```python
 from bytetracker import BYTETracker
 

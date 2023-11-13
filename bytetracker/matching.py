@@ -36,7 +36,11 @@ def _indices_to_matches(cost_matrix, indices, thresh):
 
 def linear_assignment(cost_matrix, thresh):
     if cost_matrix.size == 0:
-        return np.empty((0, 2), dtype=int), tuple(range(cost_matrix.shape[0])), tuple(range(cost_matrix.shape[1]))
+        return (
+            np.empty((0, 2), dtype=int),
+            tuple(range(cost_matrix.shape[0])),
+            tuple(range(cost_matrix.shape[1])),
+        )
     matches, unmatched_a, unmatched_b = [], [], []
     cost, x, y = lap.lapjv(cost_matrix, extend_cost=True, cost_limit=thresh)
     for ix, mx in enumerate(x):
@@ -60,7 +64,10 @@ def ious(atlbrs, btlbrs):
     if ious.size == 0:
         return ious
 
-    ious = bbox_ious(np.ascontiguousarray(atlbrs, dtype=np.float32), np.ascontiguousarray(btlbrs, dtype=np.float32))
+    ious = bbox_ious(
+        np.ascontiguousarray(atlbrs, dtype=np.float32),
+        np.ascontiguousarray(btlbrs, dtype=np.float32),
+    )
 
     return ious
 
@@ -137,7 +144,9 @@ def gate_cost_matrix(kf, cost_matrix, tracks, detections, only_position=False):
     gating_threshold = kalman_filter.chi2inv95[gating_dim]
     measurements = np.asarray([det.to_xyah() for det in detections])
     for row, track in enumerate(tracks):
-        gating_distance = kf.gating_distance(track.mean, track.covariance, measurements, only_position)
+        gating_distance = kf.gating_distance(
+            track.mean, track.covariance, measurements, only_position
+        )
         cost_matrix[row, gating_distance > gating_threshold] = np.inf
     return cost_matrix
 
@@ -149,7 +158,9 @@ def fuse_motion(kf, cost_matrix, tracks, detections, only_position=False, lambda
     gating_threshold = kalman_filter.chi2inv95[gating_dim]
     measurements = np.asarray([det.to_xyah() for det in detections])
     for row, track in enumerate(tracks):
-        gating_distance = kf.gating_distance(track.mean, track.covariance, measurements, only_position, metric="maha")
+        gating_distance = kf.gating_distance(
+            track.mean, track.covariance, measurements, only_position, metric="maha"
+        )
         cost_matrix[row, gating_distance > gating_threshold] = np.inf
         cost_matrix[row] = lambda_ * cost_matrix[row] + (1 - lambda_) * gating_distance
     return cost_matrix
@@ -195,12 +206,18 @@ def bbox_ious(boxes, query_boxes):
     overlaps = np.zeros((N, K), dtype=np.float32)
 
     for k in range(K):
-        box_area = (query_boxes[k, 2] - query_boxes[k, 0] + 1) * (query_boxes[k, 3] - query_boxes[k, 1] + 1)
+        box_area = (query_boxes[k, 2] - query_boxes[k, 0] + 1) * (
+            query_boxes[k, 3] - query_boxes[k, 1] + 1
+        )
         for n in range(N):
             iw = min(boxes[n, 2], query_boxes[k, 2]) - max(boxes[n, 0], query_boxes[k, 0]) + 1
             if iw > 0:
                 ih = min(boxes[n, 3], query_boxes[k, 3]) - max(boxes[n, 1], query_boxes[k, 1]) + 1
                 if ih > 0:
-                    ua = float((boxes[n, 2] - boxes[n, 0] + 1) * (boxes[n, 3] - boxes[n, 1] + 1) + box_area - iw * ih)
+                    ua = float(
+                        (boxes[n, 2] - boxes[n, 0] + 1) * (boxes[n, 3] - boxes[n, 1] + 1)
+                        + box_area
+                        - iw * ih
+                    )
                     overlaps[n, k] = iw * ih / ua
     return overlaps
