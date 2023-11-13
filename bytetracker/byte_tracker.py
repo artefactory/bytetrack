@@ -367,6 +367,6 @@ def remove_duplicate_stracks(stracksa, stracksb):
             dupb.append(q)
         else:
             dupa.append(p)
-    resa = [t for i, t in enumerate(stracksa) if not i in dupa]
-    resb = [t for i, t in enumerate(stracksb) if not i in dupb]
+    resa = [t for i, t in enumerate(stracksa) if not i in dupa]  # noqa: E713
+    resb = [t for i, t in enumerate(stracksb) if not i in dupb]  # noqa: E713
     return resa, resb
