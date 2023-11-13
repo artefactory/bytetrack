@@ -2,6 +2,19 @@
 
 
 
+## v0.0.2 (2023-11-13)
+
+### Fix
+
+* fix: cython (#6)
+
+Co-authored-by: TomDarmon &lt;tom.darmon@artefact.com&gt; ([`553d5c1`](https://github.com/artefactory-fr/bytetrack/commit/553d5c192b6d1414e30dcd5701ea95cd761205bb))
+
+### Unknown
+
+* Fix: cython release (#7) ([`d145ef6`](https://github.com/artefactory-fr/bytetrack/commit/d145ef6511c63b9b6fc6e0c6073249320e0d5861))
+
+
 ## v0.0.1 (2023-11-13)
 
 ### Fix
