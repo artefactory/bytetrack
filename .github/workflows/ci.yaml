@@ -1,0 +1,35 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - 'develop'
+  pull_request:
+    branches:
+      - '*'
+  workflow_call:
+
+jobs:
+  CI:
+    name: Launching CI
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ['3.10']
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install poetry
+        run: make download-poetry
+
+      - name: Install requirements
+        run: |
+          poetry install
+
+      - name: Run Pre commit hooks
+        run: make format-code
