@@ -2,6 +2,19 @@
 
 
 
+## v0.0.3 (2023-11-24)
+
+### Fix
+
+* fix: frame_id in update (#9) ([`ac36ee3`](https://github.com/artefactory-fr/bytetrack/commit/ac36ee302f78d2e77b028cd646e7de785d6105ca))
+
+### Unknown
+
+* Hotfix/frame id in update (#8) ([`1aaeb78`](https://github.com/artefactory-fr/bytetrack/commit/1aaeb780420c84857b14597083afc8692b16962f))
+
+* fix frame_id in update instead of _ ([`aafc3b7`](https://github.com/artefactory-fr/bytetrack/commit/aafc3b7d7be40534a6e88628302b9478991f533c))
+
+
 ## v0.0.2 (2023-11-13)
 
 ### Fix
