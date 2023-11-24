@@ -2,7 +2,7 @@
 name = "bytetracker"
 authors = ["TomDarmon <tom.darmon@artefact.com>"]
 description = "Maintained fork of bytetrack-pip"
-version = "0.3.3"
+version = "0.0.2"
 readme = "README.md"
 
 
