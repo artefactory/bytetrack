@@ -187,6 +187,7 @@ class BYTETracker(object):
         self.removed_stracks = []  # type: list[STrack]
         self.frame_id = 0
         self.kalman_filter = KalmanFilter()
+        BaseTrack._count = 0
 
 
     def update(self, dets, frame_id):
