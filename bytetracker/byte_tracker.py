@@ -180,6 +180,14 @@ class BYTETracker(object):
         self.max_time_lost = self.buffer_size
         self.kalman_filter = KalmanFilter()
 
+    def reset(self):
+        self.tracked_stracks = []  # type: list[STrack]
+        self.lost_stracks = []  # type: list[STrack]
+        self.removed_stracks = []  # type: list[STrack]
+        self.frame_id = 0
+        self.kalman_filter = KalmanFilter()
+        BaseTrack._count = 0
+
     def update(self, dets, frame_id):
         self.frame_id = frame_id
         activated_starcks = []

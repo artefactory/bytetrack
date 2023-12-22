@@ -2,6 +2,23 @@
 
 
 
+## v0.1.0 (2023-12-19)
+
+### Feature
+
+* feat: add reset (#12) (#13) ([`8fb44a0`](https://github.com/artefactory-fr/bytetrack/commit/8fb44a0301e7c4ae2b6d66e7b1cd2f3dd260b144))
+
+* feat: reset in bytetracker (#11) ([`8dc3f98`](https://github.com/artefactory-fr/bytetrack/commit/8dc3f9860a834f8dbd3a87016fc26b7e3929dd59))
+
+### Fix
+
+* fix: black (#12) ([`97b0560`](https://github.com/artefactory-fr/bytetrack/commit/97b0560177c4b9c3f39c2d2699585e329da4e684))
+
+### Unknown
+
+* Tp/add reset (#10) ([`074bb18`](https://github.com/artefactory-fr/bytetrack/commit/074bb18424f7670b0d26d945fa1fefc97faed041))
+
+
 ## v0.0.3 (2023-11-24)
 
 ### Fix
