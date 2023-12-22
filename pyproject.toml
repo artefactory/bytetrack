@@ -2,12 +2,12 @@
 name = "bytetracker"
 authors = ["TomDarmon <tom.darmon@artefact.com>"]
 description = "Maintained fork of bytetrack-pip"
-version = "0.0.2"
+version = "0.0.3"
 readme = "README.md"
 
 
 [tool.poetry.dependencies]
-python = ">=3.8, <3.11.0"
+python = ">=3.8"
 lapx = ">=0.5.2"
 scipy = ">=1.9.3"
 
