@@ -1,32 +1,23 @@
 # CHANGELOG
 
-## v0.1.0 (2023-12-19)
+
+
+## v0.2.0 (2023-12-22)
 
 ### Feature
 
-* feat: add reset (#12) (#13) ([`8fb44a0`](https://github.com/artefactory-fr/bytetrack/commit/8fb44a0301e7c4ae2b6d66e7b1cd2f3dd260b144))
+* feat: allow python 3.11 (#17) ([`2515015`](https://github.com/artefactory-fr/bytetrack/commit/25150157967432f9986103aeb7ab03671653ffb1))
 
-* feat: reset in bytetracker (#11) ([`8dc3f98`](https://github.com/artefactory-fr/bytetrack/commit/8dc3f9860a834f8dbd3a87016fc26b7e3929dd59))
+* feat: allow python 3.11 (#16)
 
-### Fix
+Co-authored-by: TomDarmon &lt;36815861+TomDarmon@users.noreply.github.com&gt;
+Co-authored-by: github-actions &lt;github-actions@github.com&gt; ([`c9442e3`](https://github.com/artefactory-fr/bytetrack/commit/c9442e30811b5479520ad8695706d0da8ce09397))
 
-* fix: black (#12) ([`97b0560`](https://github.com/artefactory-fr/bytetrack/commit/97b0560177c4b9c3f39c2d2699585e329da4e684))
+* feat: allow python 3.11 (#14)
 
-### Unknown
+Co-authored-by: TomDarmon &lt;36815861+TomDarmon@users.noreply.github.com&gt;
+Co-authored-by: github-actions &lt;github-actions@github.com&gt; ([`e8c77a0`](https://github.com/artefactory-fr/bytetrack/commit/e8c77a04138214022a3823637869f58851a5f8ef))
 
-* Tp/add reset (#10) ([`074bb18`](https://github.com/artefactory-fr/bytetrack/commit/074bb18424f7670b0d26d945fa1fefc97faed041))
-
-## v0.0.3 (2023-11-24)
-
-### Fix
-
-* fix: frame_id in update (#9) ([`ac36ee3`](https://github.com/artefactory-fr/bytetrack/commit/ac36ee302f78d2e77b028cd646e7de785d6105ca))
-
-### Unknown
-
-* Hotfix/frame id in update (#8) ([`1aaeb78`](https://github.com/artefactory-fr/bytetrack/commit/1aaeb780420c84857b14597083afc8692b16962f))
-
-* fix frame_id in update instead of_ ([`aafc3b7`](https://github.com/artefactory-fr/bytetrack/commit/aafc3b7d7be40534a6e88628302b9478991f533c))
 
 ## v0.1.0 (2023-12-19)
 
@@ -64,11 +55,12 @@
 
 * fix: cython (#6)
 
-Co-authored-by: TomDarmon &lt;<tom.darmon@artefact.com>&gt; ([`553d5c1`](https://github.com/artefactory-fr/bytetrack/commit/553d5c192b6d1414e30dcd5701ea95cd761205bb))
+Co-authored-by: TomDarmon &lt;tom.darmon@artefact.com&gt; ([`553d5c1`](https://github.com/artefactory-fr/bytetrack/commit/553d5c192b6d1414e30dcd5701ea95cd761205bb))
 
 ### Unknown
 
 * Fix: cython release (#7) ([`d145ef6`](https://github.com/artefactory-fr/bytetrack/commit/d145ef6511c63b9b6fc6e0c6073249320e0d5861))
+
 
 ## v0.0.1 (2023-11-13)
 
