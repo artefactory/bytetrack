@@ -1,6 +1,20 @@
 # CHANGELOG
 
+## v0.1.0 (2023-12-19)
 
+### Feature
+
+* feat: add reset (#12) (#13) ([`8fb44a0`](https://github.com/artefactory-fr/bytetrack/commit/8fb44a0301e7c4ae2b6d66e7b1cd2f3dd260b144))
+
+* feat: reset in bytetracker (#11) ([`8dc3f98`](https://github.com/artefactory-fr/bytetrack/commit/8dc3f9860a834f8dbd3a87016fc26b7e3929dd59))
+
+### Fix
+
+* fix: black (#12) ([`97b0560`](https://github.com/artefactory-fr/bytetrack/commit/97b0560177c4b9c3f39c2d2699585e329da4e684))
+
+### Unknown
+
+* Tp/add reset (#10) ([`074bb18`](https://github.com/artefactory-fr/bytetrack/commit/074bb18424f7670b0d26d945fa1fefc97faed041))
 
 ## v0.0.3 (2023-11-24)
 
@@ -12,8 +26,7 @@
 
 * Hotfix/frame id in update (#8) ([`1aaeb78`](https://github.com/artefactory-fr/bytetrack/commit/1aaeb780420c84857b14597083afc8692b16962f))
 
-* fix frame_id in update instead of _ ([`aafc3b7`](https://github.com/artefactory-fr/bytetrack/commit/aafc3b7d7be40534a6e88628302b9478991f533c))
-
+* fix frame_id in update instead of_ ([`aafc3b7`](https://github.com/artefactory-fr/bytetrack/commit/aafc3b7d7be40534a6e88628302b9478991f533c))
 
 ## v0.0.2 (2023-11-13)
 
@@ -21,12 +34,11 @@
 
 * fix: cython (#6)
 
-Co-authored-by: TomDarmon &lt;tom.darmon@artefact.com&gt; ([`553d5c1`](https://github.com/artefactory-fr/bytetrack/commit/553d5c192b6d1414e30dcd5701ea95cd761205bb))
+Co-authored-by: TomDarmon &lt;<tom.darmon@artefact.com>&gt; ([`553d5c1`](https://github.com/artefactory-fr/bytetrack/commit/553d5c192b6d1414e30dcd5701ea95cd761205bb))
 
 ### Unknown
 
 * Fix: cython release (#7) ([`d145ef6`](https://github.com/artefactory-fr/bytetrack/commit/d145ef6511c63b9b6fc6e0c6073249320e0d5861))
-
 
 ## v0.0.1 (2023-11-13)
 
