@@ -3,7 +3,7 @@
   ByteTrack-Pip: Packaged version of the ByteTrack repository
 </h2>
 <h4>
-    <img width="700" alt="teaser" src="assets/demo.gif">
+    <img width="700" alt="teaser" src="assets/traffic.gif">
 </h4>
 <div>
     <a href="https://pepy.tech/project/bytetracker"><img src="https://pepy.tech/badge/bytetracker" alt="downloads"></a>
