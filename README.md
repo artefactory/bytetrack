@@ -5,11 +5,6 @@
 <h4>
     <img width="700" alt="teaser" src="assets/traffic.gif">
 </h4>
-<div>
-    <a href="https://pepy.tech/project/bytetracker"><img src="https://pepy.tech/badge/bytetracker" alt="downloads"></a>
-    <a href="https://badge.fury.io/py/bytetracker"><img src="https://badge.fury.io/py/bytetracker.svg" alt="pypi version"></a>
-</div>
-</div>
 
 ## <div align="center">Overview</div>
 
@@ -18,19 +13,31 @@ This repo is a packaged version of the [ByteTrack](https://github.com/ifzhang/By
 ```
 pip install bytetracker
 ```
+# Executive Summary: Car Detection with ByteTrack - An Introductory Guide
 
-### Detection Model + ByteTrack
-```python
-from bytetracker import BYTETracker
+This guide offers a beginner-friendly introduction to utilizing ByteTrack for car detection within video footage. ByteTrack is an advanced algorithm that extends the capabilities of the YOLO (You Only Look Once) model for object detection, with a particular emphasis on efficiently and accurately tracking multiple objects, such as cars, across video frames.
 
-tracker = BYTETracker(args)
-for image in images:
-   dets = detector(image)
-   online_targets = tracker.update(dets)
-```
-### Reference:
- - [Yolov5-Pip](https://github.com/fcakyon/yolov5-pip)
- - [ByteTrack](https://github.com/ifzhang/ByteTrack)
+## Leveraging YOLOv5 and ByteTrack
+
+In this implementation, we are leveraging the powerful object detection capabilities of YOLOv5, available through the YOLOv5-Pip package, alongside the innovative tracking techniques provided by ByteTrack. These tools are instrumental in our approach to identifying and tracking cars, showcasing how they can be utilized in practical applications.
+
+### Reference and Acknowledgment:
+
+- **YOLOv5-Pip:** We use YOLOv5 for its state-of-the-art object detection capabilities, making it possible to detect cars in each frame of the video. The YOLOv5-Pip package simplifies the integration of YOLOv5 into Python projects. For more details, visit the [YOLOv5 GitHub repository](https://github.com/ultralytics/yolov5).
+
+- **ByteTrack:** ByteTrack excels in tracking objects over time using the detections provided by YOLOv5. It is particularly effective in maintaining identities across frames, even in challenging conditions where objects may be occluded or move unpredictably. For more information, check out the [ByteTrack GitHub repository](https://github.com/ifzhang/ByteTrack).
+
+## Example: Car Detection in Action
+
+In our notebook, we demonstrate how to set up and apply ByteTrack for car detection in video footage. The process involves:
+
+1. **Preprocessing the video:** Extracting frames from the video to prepare for detection.
+2. **Applying YOLOv5:** Detecting cars in each frame using YOLOv5.
+3. **Tracking with ByteTrack:** Using ByteTrack to maintain consistent tracking of each car across the video frames.
+
+This practical example illustrates the effectiveness of combining YOLOv5's detection capabilities with ByteTrack's advanced tracking algorithms for real-world applications.
+
+
 
 ### Citation
 ```bibtex
