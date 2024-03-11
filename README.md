@@ -30,10 +30,6 @@ In our notebook, we demonstrate how to set up and apply ByteTrack for car detect
 
 This practical example illustrates the effectiveness of combining YOLOv5's detection capabilities with ByteTrack's with a basic example of car detection and tracking.
 
-## License
-
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
-
 ## Copyright
 
 Copyright (c) 2022 Kadir Nar
@@ -46,7 +42,7 @@ Copyright (c) 2022 Kadir Nar
 
 ## ByteTrack License
 
-ByteTrack is licensed under the MIT License. See the [ByteTrack repository](https://github.com/bytedance/ByteTrack) for more information.
+ByteTrack is licensed under the MIT License. See the [LICENSE](LICENSE) file and the [ByteTrack repository](https://github.com/bytedance/ByteTrack) for more information.
 
 
 ### Citation
