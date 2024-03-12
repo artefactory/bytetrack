@@ -5,13 +5,7 @@
 #
 # 1. Ci is triggered using the CI workflow defined in .github/workflows/ci.yaml
 # 2. If it succeeds, the version is updated using Python Semantic Release
-# 3. The release is uploaded to GitHub (same step and GitHub action)
-# 5. Authentication to Google Cloud is achieved using Workload Identity Federation
-# 6. The release is uploaded to Google Artifact Registry
-#
-# For more details on setting up Workload Identity Federation for GitHub,
-# visit https://github.com/google-github-actions/auth#setting-up-workload-identity-federation
-# WIF service account must have roles/artifactregistry.write access to the Artifact Registry repository
+# 3. The release is uploaded to PyPi (same step and GitHub action)
 
 name: CI and Release on main
 
