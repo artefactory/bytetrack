@@ -16,14 +16,11 @@ pip install git+https://github.com/artefactory-fr/bytetrack.git@main
 ### Detection object with Bytetracker and YOLO
 ```
 from bytetracker import BYTETracker
-import cv2
-
 tracker = BYTETracker(args)
 for frame_id, image_filename in enumerate(frames):
     img = cv2.imread(image_filename)
-    detections = model.predict(img, *yolo_args)[0]
-    detections_bytetrack_format = yolo_results_to_bytetrack_format(detections)
-    tracked_objects = tracker.update(detections_bytetrack_format, frame_id)
+    detections = your_model.predict(img)
+    tracked_objects = tracker.update(detections, frame_id)
 ```
 
 
