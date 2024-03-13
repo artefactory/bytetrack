@@ -15,6 +15,20 @@ pip install git+https://github.com/artefactory-fr/bytetrack.git@main
 ByteTrack is a multi-object tracking computer vision model. 
 Using ByteTrack, you can allocate IDs for unique objects in a video for use in tracking objects.
 
+### Detection object with Bytetracker and YOLO
+```
+from bytetracker import BYTETracker
+
+tracker = BYTETracker(args)
+BaseTrack._count = 0
+for frame_id, image_filename in enumerate(frames):
+    img = cv2.imread(image_filename)
+    detections = model.predict(img, *yolo_args)[0]
+    detections_bytetrack_format = yolo_results_to_bytetrack_format(detections)
+    tracked_objects = tracker.update(detections_bytetrack_format, frame_id)
+```
+
+
 ## Copyright
 
 Copyright (c) 2022 Kadir Nar
