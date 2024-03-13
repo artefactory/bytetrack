@@ -9,7 +9,7 @@ This repo is a packaged version of the [ByteTrack](https://github.com/ifzhang/By
 
 ### Installation
 ```
-pip install bytetracker
+pip install git+https://github.com/artefactory-fr/bytetrack.git@main
 ```
 
 This guide offers a beginner-friendly introduction to utilizing ByteTrack for car detection within video footage. ByteTrack is an advanced algorithm that extends the capabilities of the YOLO (You Only Look Once) model for object detection, with a particular emphasis on efficiently and accurately tracking multiple objects, such as cars, across video frames.
