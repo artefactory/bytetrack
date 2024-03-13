@@ -12,21 +12,8 @@ This repo is a packaged version of the [ByteTrack](https://github.com/ifzhang/By
 pip install git+https://github.com/artefactory-fr/bytetrack.git@main
 ```
 
-This guide offers a beginner-friendly introduction to utilizing ByteTrack for car detection within video footage. ByteTrack is an advanced algorithm that extends the capabilities of the YOLO (You Only Look Once) model for object detection, with a particular emphasis on efficiently and accurately tracking multiple objects, such as cars, across video frames.
-
-**Leveraging YOLOv5 and ByteTrack**
-
-In this implementation, we are leveraging the powerful object detection capabilities of YOLOv5, available through the YOLOv5-Pip package, alongside the innovative tracking techniques provided by ByteTrack. These tools are instrumental in our approach to identifying and tracking cars, showcasing how they can be utilized in practical applications.
-
-## Car Detection with ByteTrack - An Introductory Guide
-
-In our notebook, we demonstrate how to set up and apply ByteTrack for car detection in video footage. The process involves:
-
-1. **Preprocessing the video:** Extracting frames from the video to prepare for detection.
-2. **Applying YOLOv5:** Detecting cars in each frame using YOLOv5.
-3. **Tracking with ByteTrack:** Using ByteTrack to maintain consistent tracking of each car across the video frames.
-
-This practical example illustrates the effectiveness of combining YOLOv5's detection capabilities with ByteTrack's with a basic example of car detection and tracking.
+ByteTrack is a multi-object tracking computer vision model. 
+Using ByteTrack, you can allocate IDs for unique objects in a video for use in tracking objects.
 
 ## Copyright
 
