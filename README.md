@@ -21,7 +21,6 @@ from bytetracker import BYTETracker
 import cv2
 
 tracker = BYTETracker(args)
-BaseTrack._count = 0
 for frame_id, image_filename in enumerate(frames):
     img = cv2.imread(image_filename)
     detections = model.predict(img, *yolo_args)[0]
