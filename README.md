@@ -12,8 +12,7 @@ This repo is a packaged version of the [ByteTrack](https://github.com/ifzhang/By
 pip install git+https://github.com/artefactory-fr/bytetrack.git@main
 ```
 
-ByteTrack is a multi-object tracking computer vision model. 
-Using ByteTrack, you can allocate IDs for unique objects in a video for use in tracking objects.
+ByteTrack is a multi-object tracking computer vision model. Using ByteTrack, you can allocate IDs for unique objects in a video for use in tracking objects.
 
 ### Detection object with Bytetracker and YOLO
 ```
