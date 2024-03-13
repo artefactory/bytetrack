@@ -18,6 +18,7 @@ Using ByteTrack, you can allocate IDs for unique objects in a video for use in t
 ### Detection object with Bytetracker and YOLO
 ```
 from bytetracker import BYTETracker
+import cv2
 
 tracker = BYTETracker(args)
 BaseTrack._count = 0
