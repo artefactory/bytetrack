@@ -7,8 +7,6 @@ This repo is a packaged version of the [ByteTrack](https://github.com/ifzhang/By
     <img width="700" alt="teaser" src="assets/traffic.gif">
 </h4>
 
-## Introduction
-
 ### Installation
 ```
 pip install bytetracker
