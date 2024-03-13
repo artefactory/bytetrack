@@ -1,5 +1,4 @@
 # Bytetrack starter guide
-***** Overview *****
 
 This repo is a packaged version of the [ByteTrack](https://github.com/ifzhang/ByteTrack) algorithm.
 
