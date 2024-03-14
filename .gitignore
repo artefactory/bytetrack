@@ -120,9 +120,6 @@ venv.bak/
 # mkdocs documentation
 /site
 
-# model
-*.pt
-
 # mypy
 .mypy_cache/
 .dmypy.json
@@ -133,6 +130,12 @@ dmypy.json
 
 # Poetry
 poetry.lock
+
+# model
+*.pt
+
+# images
+*.png
 
 # videos
 *.mp4
