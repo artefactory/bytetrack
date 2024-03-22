@@ -90,4 +90,4 @@ def test_video_prediction_tracking(expected_results, test_input, video_number, b
     np.array_equal(expected_results.to_numpy(), test_results_df.to_numpy())
 
     # Remove the file if the test is successful
-    Path.unlink(output_file_path)
+    Path(output_file_path).unlink()
