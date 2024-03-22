@@ -10,6 +10,8 @@ from bytetracker import BYTETracker
 # static paths
 TEST_INPUT_PATH = "tests/test_input/objects_detected_"
 EXPECTED_OUTPUT_PATH = "tests/expected_output/objects_detected_and_tracked_"
+OUTPUT_PATH = "tests/output"
+OUTPUT_FILE_SUFFIX = "_test_results.txt"
 
 
 @pytest.fixture
@@ -77,7 +79,7 @@ def test_video_prediction_tracking(expected_results, test_input, video_number, b
         byte_tracker: bytetracker object set up by fixture
 
     Returns:
-        A list of array of the tuples.
+        Test assertion results
     """
     tracker = byte_tracker
     test_results = []
@@ -94,9 +96,9 @@ def test_video_prediction_tracking(expected_results, test_input, video_number, b
     combined_array = np.concatenate(test_results)
     test_results_df = pd.DataFrame(combined_array)
 
-    Path("tests/output").mkdir(parents=True, exist_ok=True)
+    Path(OUTPUT_PATH).mkdir(parents=True, exist_ok=True)
 
-    output_file_path = f"tests/output/{video_number}_test_results.txt"
+    output_file_path = f"{OUTPUT_PATH}/{video_number}{OUTPUT_FILE_SUFFIX}"
     test_results_df.to_csv(output_file_path, sep=" ", index=False, header=False)
 
     np.array_equal(expected_results.to_numpy(), test_results_df.to_numpy())
