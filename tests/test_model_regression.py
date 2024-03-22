@@ -24,22 +24,19 @@ def read_detections_file(video_number):
         A list of array of the tuples.
     """
     all_detections_by_frame = []
-    frame_id = None
-    detections = []
-    file_path = Path(f"test_input/objects_detected_{video_number}.txt")
-    with file_path.open("r") as file:
-        for line in file:
-            parts = line.strip().split()
-            frame_id_new = int(parts[0])
-            if frame_id_new != frame_id:
-                if frame_id is not None:
-                    all_detections_by_frame.append((frame_id, np.array(detections)))
-                    detections = []
-                frame_id = frame_id_new
-            detection = list(map(float, parts[1:]))
-            detections.append(detection)
-        if frame_id is not None and detections:
-            all_detections_by_frame.append((frame_id, np.array(detections)))
+
+    # Construct file path
+    file_path = f"test_input/objects_detected_{video_number}.txt"
+
+    # Read file using pandas
+    df_detection = pd.read_csv(file_path, sep=" ", header=None)
+
+    # Group by frame_id and convert detections to numpy array
+    grouped = df_detection.groupby(0)
+    for frame_id, group in grouped:
+        detections = group.iloc[:, 1:].to_numpy()
+        all_detections_by_frame.append((frame_id, detections))
+
     return all_detections_by_frame
 
 
@@ -50,26 +47,30 @@ def reading_expected_results_from_txt(video_number):
         Video title to import.
 
     Returns:
-        cleaned dataframe consisting of concatenate object tracked frames.
+        cleaned dataframe consisting of concatenated object tracked frames.
     """
     expected_result_path = f"expected_output/objects_detected_and_tracked_{video_number}.txt"
     expected_results_df = pd.read_csv(expected_result_path, sep=" ", header=None)
-    columns = ["0", "1", "2", "3", "4", "5", "6", "7"]
-    expected_results_df.columns = columns
-    expected_results_df = expected_results_df.astype(float)
+
     return expected_results_df
 
 
 @pytest.mark.parametrize(
-    "expected_results, test_input",
+    "expected_results, test_input, video_number",
     [
         (
             reading_expected_results_from_txt("video1"),
             read_detections_file("video1"),
+            "video1",
+        ),
+        (
+            reading_expected_results_from_txt("video2"),
+            read_detections_file("video2"),
+            "video2",
         ),
     ],
 )
-def test_video_prediction_tracking(expected_results, test_input, byte_tracker):
+def test_video_prediction_tracking(expected_results, test_input, video_number, byte_tracker):
     tracker = byte_tracker
     test_results = []
 
@@ -81,7 +82,12 @@ def test_video_prediction_tracking(expected_results, test_input, byte_tracker):
             test_results.append(tracked_objects)
     # Cleaning the dataframe of tracked objects to align with expected output setup
     combined_array = np.concatenate(test_results)
-    test_results_df = pd.DataFrame(combined_array, columns=["0", "1", "2", "3", "4", "5", "6", "7"])
-    test_results_df = test_results_df.astype(float)
+    test_results_df = pd.DataFrame(combined_array)
 
-    pd.testing.assert_frame_equal(expected_results, test_results_df)
+    output_file_path = f"output/{video_number}_test_results.txt"
+    test_results_df.to_csv(output_file_path, sep=" ", index=False, header=False)
+
+    np.array_equal(expected_results.to_numpy(), test_results_df.to_numpy())
+
+    # Remove the file if the test is successful
+    Path.unlink(output_file_path)
