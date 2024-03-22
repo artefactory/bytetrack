@@ -45,7 +45,7 @@ ByteTrack is licensed under the MIT License. See the [LICENSE](LICENSE) file and
 
 ```bibtex
 @video{intel-iot-devkit,
-  author={Intel IoT Devkit Sample Videos},
+  author={Intel IoT},
   title={Intel IoT Devkit Sample Videos(https://github.com/intel-iot-devkit/sample-videos)},
   license={Creative Commons Attribution 4.0 International License(https://creativecommons.org/licenses/by/4.0/)}
 ```
