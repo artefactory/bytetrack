@@ -26,7 +26,7 @@ def read_detections_file(video_number):
     all_detections_by_frame = []
 
     # Construct file path
-    file_path = f"test_input/objects_detected_{video_number}.txt"
+    file_path = f"tests/test_input/objects_detected_{video_number}.txt"
 
     # Read file using pandas
     df_detection = pd.read_csv(file_path, sep=" ", header=None)
@@ -49,7 +49,7 @@ def reading_expected_results_from_txt(video_number):
     Returns:
         cleaned dataframe consisting of concatenated object tracked frames.
     """
-    expected_result_path = f"expected_output/objects_detected_and_tracked_{video_number}.txt"
+    expected_result_path = f"tests/expected_output/objects_detected_and_tracked_{video_number}.txt"
     expected_results_df = pd.read_csv(expected_result_path, sep=" ", header=None)
 
     return expected_results_df
@@ -84,7 +84,9 @@ def test_video_prediction_tracking(expected_results, test_input, video_number, b
     combined_array = np.concatenate(test_results)
     test_results_df = pd.DataFrame(combined_array)
 
-    output_file_path = f"output/{video_number}_test_results.txt"
+    Path("tests/output").mkdir(parents=True, exist_ok=True)
+
+    output_file_path = f"tests/output/{video_number}_test_results.txt"
     test_results_df.to_csv(output_file_path, sep=" ", index=False, header=False)
 
     np.array_equal(expected_results.to_numpy(), test_results_df.to_numpy())
