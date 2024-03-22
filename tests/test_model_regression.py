@@ -14,6 +14,11 @@ EXPECTED_OUTPUT_PATH = "tests/expected_output/objects_detected_and_tracked_"
 
 @pytest.fixture
 def byte_tracker():
+    """Generate byte tracker model instance
+
+    Returns:
+        ByteTracker object
+    """
     byte_tracker = BYTETracker(track_thresh=0.15, track_buffer=3, match_thresh=0.85, frame_rate=12)
     return byte_tracker
 
@@ -27,17 +32,9 @@ def read_detections_file(video_number):
     Returns:
         A list of array of the tuples.
     """
-    all_detections_by_frame = []
-    # Read file using pandas
     df_detection = pd.read_csv(f"{TEST_INPUT_PATH}{video_number}.txt", sep=" ", header=None)
 
-    # Group by frame_id and convert detections to numpy array
-    grouped = df_detection.groupby(0)
-    for frame_id, group in grouped:
-        detections = group.iloc[:, 1:].to_numpy()
-        all_detections_by_frame.append((frame_id, detections))
-
-    return all_detections_by_frame
+    return df_detection
 
 
 def reading_expected_results_from_txt(video_number):
@@ -72,12 +69,26 @@ def reading_expected_results_from_txt(video_number):
     ],
 )
 def test_video_prediction_tracking(expected_results, test_input, video_number, byte_tracker):
+    """Execute the integration test: performing the tracking of test_input,
+    whose output is to compare with expected_results
+
+    Args:
+        expected_result: the dataframe of the results expected to match the test result
+        test_input: dataframe that is the import of prediction frames in test_input folder
+        video_number: string component specific to a video
+        byte_tracker: bytetracker object set up by fixture
+
+    Returns:
+        A list of array of the tuples.
+    """
     tracker = byte_tracker
     test_results = []
 
     # reading the detected objects through Yolo model and apply tracking
-    for frame_id, detections_bytetrack_format in test_input:
-        tracked_objects = tracker.update(detections_bytetrack_format, frame_id)
+    frame_idx = test_input[0].unique()
+    for frame_id in frame_idx:
+        detections = test_input[test_input[0] == frame_id].iloc[:, 1:].to_numpy()
+        tracked_objects = tracker.update(detections, frame_id)
         if len(tracked_objects) > 0:
             tracked_objects = np.insert(tracked_objects, 0, frame_id, axis=1)
             test_results.append(tracked_objects)
