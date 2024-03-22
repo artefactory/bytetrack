@@ -41,7 +41,11 @@ ByteTrack is licensed under the MIT License. See the [LICENSE](LICENSE) file and
   booktitle={Proceedings of the European Conference on Computer Vision (ECCV)},
   year={2022}
 }
-### Video Content Usage
-This project utilizes video content from [Intel IoT Devkit Sample Videos](https://github.com/intel-iot-devkit/sample-videos), which is licensed under the [Creative Commons Attribution 4.0 International License](https://creativecommons.org/licenses/by/4.0/).
+```
 
+```
+@Video{intel-iot-devkit,
+  author={Intel IoT Devkit Sample Videos},
+  title={Intel IoT Devkit Sample Videos(https://github.com/intel-iot-devkit/sample-videos)},
+  license={Creative Commons Attribution 4.0 International License(https://creativecommons.org/licenses/by/4.0/)}
 ```
