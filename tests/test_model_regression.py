@@ -32,7 +32,7 @@ def read_detections_file(video_number):
     Returns:
         A list of array of the tuples.
     """
-    df_detection = pd.read_csv(f"{TEST_INPUT_PATH}{video_number}.txt", sep=" ", header=None)
+    df_detection = pd.read_csv(f"{TEST_INPUT_PATH}{video_number}.txt", sep=" ")
 
     return df_detection
 
@@ -46,9 +46,7 @@ def reading_expected_results_from_txt(video_number):
     Returns:
         cleaned dataframe consisting of concatenated object tracked frames.
     """
-    expected_results_df = pd.read_csv(
-        f"{EXPECTED_OUTPUT_PATH}{video_number}.txt", sep=" ", header=None
-    )
+    expected_results_df = pd.read_csv(f"{EXPECTED_OUTPUT_PATH}{video_number}.txt", sep=" ")
 
     return expected_results_df
 
@@ -85,9 +83,9 @@ def test_video_prediction_tracking(expected_results, test_input, video_number, b
     test_results = []
 
     # reading the detected objects through Yolo model and apply tracking
-    frame_idx = test_input[0].unique()
+    frame_idx = test_input["frame_id"].unique()
     for frame_id in frame_idx:
-        detections = test_input[test_input[0] == frame_id].iloc[:, 1:].to_numpy()
+        detections = test_input[test_input["frame_id"] == frame_id].iloc[:, 1:].to_numpy()
         tracked_objects = tracker.update(detections, frame_id)
         if len(tracked_objects) > 0:
             tracked_objects = np.insert(tracked_objects, 0, frame_id, axis=1)
