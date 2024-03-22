@@ -7,6 +7,10 @@ import pytest
 # bytetracker
 from bytetracker import BYTETracker
 
+# static paths
+TEST_INPUT_PATH = "tests/test_input/objects_detected_"
+EXPECTED_OUTPUT_PATH = "tests/expected_output/objects_detected_and_tracked_"
+
 
 @pytest.fixture
 def byte_tracker():
@@ -24,12 +28,8 @@ def read_detections_file(video_number):
         A list of array of the tuples.
     """
     all_detections_by_frame = []
-
-    # Construct file path
-    file_path = f"tests/test_input/objects_detected_{video_number}.txt"
-
     # Read file using pandas
-    df_detection = pd.read_csv(file_path, sep=" ", header=None)
+    df_detection = pd.read_csv(f"{TEST_INPUT_PATH}{video_number}.txt", sep=" ", header=None)
 
     # Group by frame_id and convert detections to numpy array
     grouped = df_detection.groupby(0)
@@ -49,8 +49,9 @@ def reading_expected_results_from_txt(video_number):
     Returns:
         cleaned dataframe consisting of concatenated object tracked frames.
     """
-    expected_result_path = f"tests/expected_output/objects_detected_and_tracked_{video_number}.txt"
-    expected_results_df = pd.read_csv(expected_result_path, sep=" ", header=None)
+    expected_results_df = pd.read_csv(
+        f"{EXPECTED_OUTPUT_PATH}{video_number}.txt", sep=" ", header=None
+    )
 
     return expected_results_df
 
