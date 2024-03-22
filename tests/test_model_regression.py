@@ -1,78 +1,70 @@
-import pytest
-import glob
-# YOLO and video packages 
-from ultralytics import YOLO
-from bytetracker import BYTETracker
-import cv2
-import os
-import subprocess
+from pathlib import Path
+
 import numpy as np
 import pandas as pd
+import pytest
 
-# Fixture to load YOLO and BYTETracker models
+# bytetracker
+from bytetracker import BYTETracker
+
+
 @pytest.fixture
-def model_creation():
-    MODEL_WEIGHTS = "yolov8m.pt"
-    yolo_model = YOLO(MODEL_WEIGHTS, task="detect")
+def byte_tracker():
     byte_tracker = BYTETracker(track_thresh=0.15, track_buffer=3, match_thresh=0.85, frame_rate=12)
-    return yolo_model, byte_tracker
+    return byte_tracker
 
-def extract_frames_from_video(video_path, video_number, fps=12):
-    # enables running command in python file
-    ffmpeg_cmd = f"ffmpeg -i {video_path} -vf fps={fps} frames/video_{video_number}_%d.png -hide_banner -loglevel panic"
-    
-    # Execute the command
-    subprocess.run(ffmpeg_cmd, shell=True, check=True)
 
-def read_text_to_dataframe(file_path):
-    # Initialize an empty list to store the arrays
-    arrays = []
-
-    # Read the text file line by line
-    with open(file_path, "r") as file:
-        current_array = []
+def read_detections_file(file_path):
+    all_detections_by_frame = []
+    frame_id = None
+    detections = []
+    file_path = Path(file_path)
+    with file_path.open("r") as file:
         for line in file:
-            if line.strip():  # Check if the line is not empty
-                row = [float(value) for value in line.strip().split("\t")]
-                current_array.append(row)
-            else:  # If a blank line is encountered, store the current array and reset for the next array
-                arrays.append(current_array)
-                current_array = []
+            parts = line.strip().split()
+            frame_id_new = int(parts[0])
+            if frame_id_new != frame_id:
+                if frame_id is not None:
+                    all_detections_by_frame.append((frame_id, np.array(detections)))
+                    detections = []
+                frame_id = frame_id_new
+            detection = list(map(float, parts[1:]))
+            detections.append(detection)
+        if frame_id is not None and detections:
+            all_detections_by_frame.append((frame_id, np.array(detections)))
+    return all_detections_by_frame
 
-    # If there's a remaining array after reading all lines, append it
-    if current_array:
-        arrays.append(current_array)
 
-    # Convert the list of arrays into a list of numpy arrays
-    numpy_arrays = [np.array(array) for array in arrays]
+def reading_expected_results_from_txt(video_number):
+    expected_result_path = f"expected_output/objects_detected_and_tracked_{video_number}.txt"
+    expected_results_df = pd.read_csv(expected_result_path, sep=" ", header=None)
+    columns = ["0", "1", "2", "3", "4", "5", "6", "7"]
+    expected_results_df.columns = columns
+    expected_results_df = expected_results_df.astype(float)
+    return expected_results_df
 
-    # Convert the list of numpy arrays into a list of DataFrames
-    dataframes = [pd.DataFrame(array) for array in numpy_arrays]
 
-    return dataframes
+@pytest.mark.parametrize(
+    "expected_results, test_input",
+    [
+        (
+            reading_expected_results_from_txt("video1"),
+            read_detections_file("test_input/objects_detected_video1.txt"),
+        ),
+    ],
+)
+def test_video_prediction_tracking(expected_results, test_input, byte_tracker):
+    tracker = byte_tracker
+    test_results = []
 
-def test_video_prediction_tracking(setup_models, video_path):
-    yolo_model, byte_tracker = model_creation()
-    
-    frame_path = "frames/"
-    os.makedirs(frame_path, exist_ok=True)
-    os.system(f"ffmpeg -i {video_path} -vf fps=12 {frame_path}/frame_%d.png -hide_banner -loglevel error")
-    frames = sorted(glob.glob(f"{frame_path}/*.png"))
-    
-    all_tracked_objects = []
-    for frame_id, frame in enumerate(frames):
-        img = cv2.imread(frame)
-        # Assuming model and tracker have predict and track methods respectively
-        predictions = yolo_model.predict(img)
-        tracked_objects = byte_tracker.track(predictions)
-        all_tracked_objects.append(tracked_objects)
-    
-    # Assert the equality of predicted and expected results
-    # Note: You'll need to define a way to load or specify expected results.
-    expected_results = read_text_to_dataframe(video_path)  # Implement this function
+    for frame_id, detections_bytetrack_format in test_input:
+        tracked_objects = tracker.update(detections_bytetrack_format, frame_id)
+        if len(tracked_objects) > 0:
+            tracked_objects = np.insert(tracked_objects, 0, frame_id, axis=1)
+            test_results.append(tracked_objects)
 
-    assert all_tracked_objects == expected_results, "Tracked objects do not match expected results."
-    
-    # Optionally, clean up frames after test
-    for frame in frames:
-        os.remove(frame)
+    combined_array = np.concatenate(test_results)
+    test_results_df = pd.DataFrame(combined_array, columns=["0", "1", "2", "3", "4", "5", "6", "7"])
+    test_results_df = test_results_df.astype(float)
+
+    pd.testing.assert_frame_equal(expected_results, test_results_df)
