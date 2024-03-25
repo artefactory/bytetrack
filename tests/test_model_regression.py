@@ -12,6 +12,9 @@ TEST_INPUT_PATH = "tests/test_input/objects_detected_"
 EXPECTED_OUTPUT_PATH = "tests/expected_output/objects_detected_and_tracked_"
 OUTPUT_PATH = "tests/output"
 OUTPUT_FILE_SUFFIX = "_test_results.txt"
+TEST_INPUT_FOLDER = Path("tests/test_input")
+EXPECTED_OUTPUT_FOLDER = Path("tests/expected_output")
+OUTPUT_FOLDER = Path("tests/output")
 
 # Initialize BYTETracker globally
 BYTE_TRACKER = BYTETracker(track_thresh=0.15, track_buffer=3, match_thresh=0.85, frame_rate=12)
@@ -33,7 +36,9 @@ def read_detections_file(video_number):
         A list of array of the tuples.
     """
     # df_detection = pd.read_csv(f"{TEST_INPUT_PATH}{video_number}.txt", sep=" ")
-    df_detection = np.loadtxt(f"{TEST_INPUT_PATH}{video_number}.txt", delimiter=" ")
+    df_detection = np.loadtxt(
+        TEST_INPUT_FOLDER / f"objects_detected_{video_number}.txt", delimiter=" "
+    )
     print(df_detection)
 
     return df_detection
@@ -49,7 +54,9 @@ def reading_expected_results_from_txt(video_number):
         cleaned dataframe consisting of concatenated object tracked frames.
     """
     expected_results_df = pd.read_csv(f"{EXPECTED_OUTPUT_PATH}{video_number}.txt", sep=" ")
-    expected_results_df = np.loadtxt(f"{EXPECTED_OUTPUT_PATH}{video_number}.txt", delimiter=" ")
+    expected_results_df = np.loadtxt(
+        EXPECTED_OUTPUT_FOLDER / f"objects_detected_and_tracked_{video_number}.txt"
+    )
 
     return expected_results_df
 
@@ -105,7 +112,7 @@ def test_video_prediction_tracking(expected_results, test_input, video_number):
 
     Path(OUTPUT_PATH).mkdir(parents=True, exist_ok=True)
 
-    output_file_path = f"{OUTPUT_PATH}/{video_number}{OUTPUT_FILE_SUFFIX}"
+    output_file_path = OUTPUT_FOLDER / f"{video_number}_test_results.txt"
     np.savetxt(output_file_path, combined_array, delimiter=" ", fmt="%s")
 
     np.array_equal(expected_results, combined_array)
