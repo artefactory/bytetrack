@@ -17,7 +17,7 @@ def read_detections_file(video_number):
     """Read the detections object file from a specific format
 
     Args:
-        detections: A list of tuples composed of frame_id and its YOLO detections.
+        video_number: string representing the video name in folder
 
     Returns:
         A list of array of the tuples.
