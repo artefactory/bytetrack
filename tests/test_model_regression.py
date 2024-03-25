@@ -13,12 +13,6 @@ EXPECTED_OUTPUT_FOLDER = Path("tests/expected_output")
 OUTPUT_FOLDER = Path("tests/output")
 
 
-def reset_byte_tracker():
-    """Reset the BYTETracker instance defined globally"""
-    global BYTE_TRACKER
-    BYTE_TRACKER = BYTETracker(track_thresh=0.15, track_buffer=3, match_thresh=0.85, frame_rate=12)
-
-
 def read_detections_file(video_number):
     """Read the detections object file from a specific format
 
