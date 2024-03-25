@@ -37,7 +37,7 @@ def reading_expected_results_from_txt(video_number):
         video_number (str): Video title to import
 
     Returns:
-        expected_results_df (DataFrame): cleaned dataframe consisting of concatenated object tracked frames.
+        expected_results_df (array): array of frames detection and tracking imported from expected results.
     """
     expected_results_df = np.loadtxt(
         EXPECTED_OUTPUT_FOLDER / f"objects_detected_and_tracked_{video_number}.txt"
