@@ -35,4 +35,4 @@ jobs:
         run: make format-code
       
       - name: Run Tests
-        run: pytest tests
+        run: poetry run pytest tests
