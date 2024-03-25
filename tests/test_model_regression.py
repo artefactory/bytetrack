@@ -7,16 +7,10 @@ import pytest
 from bytetracker import BYTETracker
 
 # static paths
-TEST_INPUT_PATH = "tests/test_input/objects_detected_"
-EXPECTED_OUTPUT_PATH = "tests/expected_output/objects_detected_and_tracked_"
-OUTPUT_PATH = "tests/output"
-OUTPUT_FILE_SUFFIX = "_test_results.txt"
+OUTPUT_FOLDER = Path("tests/output")
 TEST_INPUT_FOLDER = Path("tests/test_input")
 EXPECTED_OUTPUT_FOLDER = Path("tests/expected_output")
 OUTPUT_FOLDER = Path("tests/output")
-
-# Initialize BYTETracker globally
-BYTE_TRACKER = BYTETracker(track_thresh=0.15, track_buffer=3, match_thresh=0.85, frame_rate=12)
 
 
 def reset_byte_tracker():
@@ -86,8 +80,7 @@ def test_video_prediction_tracking(expected_results, test_input, video_number):
     Returns:
         Test assertion results
     """
-    reset_byte_tracker()
-    tracker = BYTE_TRACKER
+    tracker = BYTETracker(track_thresh=0.15, track_buffer=3, match_thresh=0.85, frame_rate=12)
     test_results = []
     # first column of test input is the frame id
     frame_idx = np.unique(test_input[:, 0])
@@ -107,7 +100,7 @@ def test_video_prediction_tracking(expected_results, test_input, video_number):
     else:
         combined_array = np.array([])  # Or handle the empty case as needed
 
-    Path(OUTPUT_PATH).mkdir(parents=True, exist_ok=True)
+    Path(OUTPUT_FOLDER).mkdir(parents=True, exist_ok=True)
 
     output_file_path = OUTPUT_FOLDER / f"{video_number}_test_results.txt"
     np.savetxt(output_file_path, combined_array, delimiter=" ", fmt="%s")
