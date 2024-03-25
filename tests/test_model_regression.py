@@ -98,7 +98,7 @@ def test_video_prediction_tracking(expected_results, test_input, video_number):
     output_file_path = OUTPUT_FOLDER / f"{video_number}_test_results.txt"
     np.savetxt(output_file_path, combined_array, delimiter=" ", fmt="%s")
 
-    np.array_equal(expected_results, combined_array)
+    assert np.allclose(expected_results, combined_array)
 
     # Remove the file if the test is successful
     output_file_path.unlink()
