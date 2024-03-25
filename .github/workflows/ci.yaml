@@ -33,3 +33,6 @@ jobs:
 
       - name: Run Pre commit hooks
         run: make format-code
+      
+      - name: Run Tests
+        run: pytest tests
