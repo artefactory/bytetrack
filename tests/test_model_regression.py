@@ -17,10 +17,10 @@ def reading_detections_file(video_number):
     """Read the detections object file from a specific format
 
     Args:
-        video_number: string representing the video name in folder
+        video_number (string): string representing the video name in folder
 
     Returns:
-        df_detection (list): A list of array of the tuples.
+        df_detection (ndarray): A list of array of the tuples.
     """
     df_detection = np.loadtxt(
         TEST_INPUT_FOLDER / f"objects_detected_{video_number}.txt", delimiter=" "
@@ -37,7 +37,7 @@ def reading_expected_results_from_txt(video_number):
         video_number (str): Video title to import
 
     Returns:
-        expected_results_df (array): array of frames detection and tracking imported from expected results.
+        expected_results_df (ndarray): array of frames detection and tracking imported from expected results.
     """
     expected_results_df = np.loadtxt(
         EXPECTED_OUTPUT_FOLDER / f"objects_detected_and_tracked_{video_number}.txt"
