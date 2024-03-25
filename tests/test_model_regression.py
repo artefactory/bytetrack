@@ -20,7 +20,7 @@ def read_detections_file(video_number):
         video_number: string representing the video name in folder
 
     Returns:
-        A list of array of the tuples.
+        df_detection (list): A list of array of the tuples.
     """
     df_detection = np.loadtxt(
         TEST_INPUT_FOLDER / f"objects_detected_{video_number}.txt", delimiter=" "
@@ -34,10 +34,10 @@ def reading_expected_results_from_txt(video_number):
     """Read the detections and tracked objects frames from Yolo and Bytetrack models
 
     Args:
-        Video title to import.
+        video_number (str): Video title to import
 
     Returns:
-        cleaned dataframe consisting of concatenated object tracked frames.
+        expected_results_df (DataFrame): cleaned dataframe consisting of concatenated object tracked frames.
     """
     expected_results_df = np.loadtxt(
         EXPECTED_OUTPUT_FOLDER / f"objects_detected_and_tracked_{video_number}.txt"
@@ -66,9 +66,9 @@ def test_video_prediction_tracking(expected_results, test_input, video_number):
     whose output is to compare with expected_results
 
     Args:
-        expected_result: the dataframe of the results expected to match the test result
-        test_input: dataframe that is the import of prediction frames in test_input folder
-        video_number: string component specific to a video
+        expected_result (DataFrame): the dataframe of the results expected to match the test result
+        test_input (array): dataframe that is the import of prediction frames in test_input folder
+        video_number (string): string component specific to a video
 
     Returns:
         Test assertion results
