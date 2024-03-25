@@ -87,21 +87,22 @@ def test_video_prediction_tracking(expected_results, test_input, video_number, b
     # reading the detected objects through Yolo model and apply tracking
     frame_idx = test_input["frame_id"].unique()
     for frame_id in frame_idx:
-        detections = test_input[test_input["frame_id"] == frame_id].iloc[:, 1:].to_numpy()
+        detections = test_input[test_input["frame_id"] == frame_id][
+            ["x_min", "y_min", "x_max", "y_max", "confidence", "class_id"]
+        ].to_numpy()
         tracked_objects = tracker.update(detections, frame_id)
         if len(tracked_objects) > 0:
             tracked_objects = np.insert(tracked_objects, 0, frame_id, axis=1)
             test_results.append(tracked_objects)
     # Cleaning the dataframe of tracked objects to align with expected output setup
     combined_array = np.concatenate(test_results)
-    test_results_df = pd.DataFrame(combined_array)
 
     Path(OUTPUT_PATH).mkdir(parents=True, exist_ok=True)
 
     output_file_path = f"{OUTPUT_PATH}/{video_number}{OUTPUT_FILE_SUFFIX}"
-    test_results_df.to_csv(output_file_path, sep=" ", index=False, header=False)
+    np.savetxt(output_file_path, combined_array, delimiter=" ", fmt="%s")
 
-    np.array_equal(expected_results.to_numpy(), test_results_df.to_numpy())
+    np.array_equal(expected_results.to_numpy(), combined_array)
 
     # Remove the file if the test is successful
     Path(output_file_path).unlink()
