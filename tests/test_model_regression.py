@@ -69,7 +69,6 @@ def test_video_prediction_tracking(expected_results, test_input, video_number):
         expected_result: the dataframe of the results expected to match the test result
         test_input: dataframe that is the import of prediction frames in test_input folder
         video_number: string component specific to a video
-        byte_tracker: bytetracker object set up by fixture
 
     Returns:
         Test assertion results
