@@ -12,6 +12,8 @@ TEST_INPUT_FOLDER = Path("tests/test_input")
 EXPECTED_OUTPUT_FOLDER = Path("tests/expected_output")
 OUTPUT_FOLDER = Path("tests/output")
 
+OUTPUT_FOLDER.mkdir(parents=True, exist_ok=True)
+
 
 def reading_detections_file(video_number):
     """Read the detections object file from a specific format
@@ -92,8 +94,6 @@ def test_video_prediction_tracking(expected_results, test_input, video_number):
         combined_array = np.concatenate(test_results)
     else:
         combined_array = np.array([])  # Or handle the empty case as needed
-
-    Path(OUTPUT_FOLDER).mkdir(parents=True, exist_ok=True)
 
     output_file_path = OUTPUT_FOLDER / f"{video_number}_test_results.txt"
     np.savetxt(output_file_path, combined_array, delimiter=" ", fmt="%s")
