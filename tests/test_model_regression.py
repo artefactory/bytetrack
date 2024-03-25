@@ -34,7 +34,9 @@ def read_detections_file(video_number):
     Returns:
         A list of array of the tuples.
     """
-    df_detection = pd.read_csv(f"{TEST_INPUT_PATH}{video_number}.txt", sep=" ")
+    # df_detection = pd.read_csv(f"{TEST_INPUT_PATH}{video_number}.txt", sep=" ")
+    df_detection = np.loadtxt(f"{TEST_INPUT_PATH}{video_number}.txt", delimiter=" ")
+    print(df_detection)
 
     return df_detection
 
@@ -49,6 +51,7 @@ def reading_expected_results_from_txt(video_number):
         cleaned dataframe consisting of concatenated object tracked frames.
     """
     expected_results_df = pd.read_csv(f"{EXPECTED_OUTPUT_PATH}{video_number}.txt", sep=" ")
+    expected_results_df = np.loadtxt(f"{EXPECTED_OUTPUT_PATH}{video_number}.txt", delimiter=" ")
 
     return expected_results_df
 
@@ -83,26 +86,30 @@ def test_video_prediction_tracking(expected_results, test_input, video_number, b
     """
     tracker = byte_tracker
     test_results = []
+    # first column of test input is the frame id
+    frame_idx = np.unique(test_input[:, 0])
+    test_results = []
 
-    # reading the detected objects through Yolo model and apply tracking
-    frame_idx = test_input["frame_id"].unique()
     for frame_id in frame_idx:
-        detections = test_input[test_input["frame_id"] == frame_id][
-            ["x_min", "y_min", "x_max", "y_max", "confidence", "class_id"]
-        ].to_numpy()
+        detections = test_input[test_input[:, 0] == frame_id][:, 1:]
         tracked_objects = tracker.update(detections, frame_id)
         if len(tracked_objects) > 0:
-            tracked_objects = np.insert(tracked_objects, 0, frame_id, axis=1)
+            tracked_objects = np.insert(
+                tracked_objects, 0, np.full(len(tracked_objects), frame_id), axis=1
+            )
             test_results.append(tracked_objects)
-    # Cleaning the dataframe of tracked objects to align with expected output setup
-    combined_array = np.concatenate(test_results)
+
+    if test_results:  # Ensure test_results is not empty to avoid errors
+        combined_array = np.concatenate(test_results)
+    else:
+        combined_array = np.array([])  # Or handle the empty case as needed
 
     Path(OUTPUT_PATH).mkdir(parents=True, exist_ok=True)
 
     output_file_path = f"{OUTPUT_PATH}/{video_number}{OUTPUT_FILE_SUFFIX}"
     np.savetxt(output_file_path, combined_array, delimiter=" ", fmt="%s")
 
-    np.array_equal(expected_results.to_numpy(), combined_array)
+    np.array_equal(expected_results, combined_array)
 
     # Remove the file if the test is successful
     Path(output_file_path).unlink()
