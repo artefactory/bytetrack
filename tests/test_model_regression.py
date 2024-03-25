@@ -86,8 +86,8 @@ def test_video_prediction_tracking(expected_results, test_input, video_number):
     Returns:
         Test assertion results
     """
-    tracker = BYTE_TRACKER
     reset_byte_tracker()
+    tracker = BYTE_TRACKER
     test_results = []
     # first column of test input is the frame id
     frame_idx = np.unique(test_input[:, 0])
