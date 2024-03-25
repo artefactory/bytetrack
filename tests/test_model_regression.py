@@ -13,16 +13,14 @@ EXPECTED_OUTPUT_PATH = "tests/expected_output/objects_detected_and_tracked_"
 OUTPUT_PATH = "tests/output"
 OUTPUT_FILE_SUFFIX = "_test_results.txt"
 
+# Initialize BYTETracker globally
+BYTE_TRACKER = BYTETracker(track_thresh=0.15, track_buffer=3, match_thresh=0.85, frame_rate=12)
 
-@pytest.fixture
-def byte_tracker():
-    """Generate byte tracker model instance
 
-    Returns:
-        ByteTracker object
-    """
-    byte_tracker = BYTETracker(track_thresh=0.15, track_buffer=3, match_thresh=0.85, frame_rate=12)
-    return byte_tracker
+def reset_byte_tracker():
+    """Reset the BYTETracker instance defined globally"""
+    global BYTE_TRACKER
+    BYTE_TRACKER = BYTETracker(track_thresh=0.15, track_buffer=3, match_thresh=0.85, frame_rate=12)
 
 
 def read_detections_file(video_number):
@@ -71,7 +69,7 @@ def reading_expected_results_from_txt(video_number):
         ),
     ],
 )
-def test_video_prediction_tracking(expected_results, test_input, video_number, byte_tracker):
+def test_video_prediction_tracking(expected_results, test_input, video_number):
     """Execute the integration test: performing the tracking of test_input,
     whose output is to compare with expected_results
 
@@ -84,7 +82,8 @@ def test_video_prediction_tracking(expected_results, test_input, video_number, b
     Returns:
         Test assertion results
     """
-    tracker = byte_tracker
+    tracker = BYTE_TRACKER
+    reset_byte_tracker()
     test_results = []
     # first column of test input is the frame id
     frame_idx = np.unique(test_input[:, 0])
