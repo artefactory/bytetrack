@@ -1,7 +1,6 @@
 from pathlib import Path
 
 import numpy as np
-import pandas as pd
 import pytest
 
 # bytetracker
@@ -35,7 +34,6 @@ def read_detections_file(video_number):
     Returns:
         A list of array of the tuples.
     """
-    # df_detection = pd.read_csv(f"{TEST_INPUT_PATH}{video_number}.txt", sep=" ")
     df_detection = np.loadtxt(
         TEST_INPUT_FOLDER / f"objects_detected_{video_number}.txt", delimiter=" "
     )
@@ -53,7 +51,6 @@ def reading_expected_results_from_txt(video_number):
     Returns:
         cleaned dataframe consisting of concatenated object tracked frames.
     """
-    expected_results_df = pd.read_csv(f"{EXPECTED_OUTPUT_PATH}{video_number}.txt", sep=" ")
     expected_results_df = np.loadtxt(
         EXPECTED_OUTPUT_FOLDER / f"objects_detected_and_tracked_{video_number}.txt"
     )
