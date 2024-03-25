@@ -13,7 +13,7 @@ EXPECTED_OUTPUT_FOLDER = Path("tests/expected_output")
 OUTPUT_FOLDER = Path("tests/output")
 
 
-def read_detections_file(video_number):
+def reading_detections_file(video_number):
     """Read the detections object file from a specific format
 
     Args:
@@ -51,12 +51,12 @@ def reading_expected_results_from_txt(video_number):
     [
         (
             reading_expected_results_from_txt("video1"),
-            read_detections_file("video1"),
+            reading_detections_file("video1"),
             "video1",
         ),
         (
             reading_expected_results_from_txt("video2"),
-            read_detections_file("video2"),
+            reading_detections_file("video2"),
             "video2",
         ),
     ],
