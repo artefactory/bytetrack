@@ -101,4 +101,4 @@ def test_video_prediction_tracking(expected_results, test_input, video_number):
     np.array_equal(expected_results, combined_array)
 
     # Remove the file if the test is successful
-    Path(output_file_path).unlink()
+    output_file_path.unlink()
