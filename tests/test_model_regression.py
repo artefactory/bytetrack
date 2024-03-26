@@ -4,7 +4,7 @@ import numpy as np
 import pytest
 
 # bytetracker
-from bytetracker.byte_tracker import BYTETracker
+from bytetracker import BYTETracker
 
 # static paths
 OUTPUT_FOLDER = Path("tests/output")
