@@ -27,7 +27,6 @@ def reading_detections_file(video_number):
     df_detection = np.loadtxt(
         TEST_INPUT_FOLDER / f"objects_detected_{video_number}.txt", delimiter=" "
     )
-    print(df_detection)
 
     return df_detection
 
