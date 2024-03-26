@@ -78,7 +78,7 @@ def test_video_prediction_tracking(expected_results, test_input, video_number):
     tracker = BYTETracker(track_thresh=0.15, track_buffer=3, match_thresh=0.85, frame_rate=12)
     test_results = []
     # first column of test input is the frame id
-    frame_idx = np.unique(test_input[:, 0])
+    frame_idx = sorted(np.unique(test_input[:, 0]))
     test_results = []
 
     for frame_id in frame_idx:
