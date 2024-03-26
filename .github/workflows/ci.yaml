@@ -27,13 +27,12 @@ jobs:
       - name: Install poetry
         run: make download-poetry
 
-      - name: Install dependencies and pytest
+      - name: Install requirements
         run: |
           poetry install
-          poetry add pytest --dev
 
       - name: Run Pre commit hooks
         run: make format-code
       
       - name: Run Tests
-        run: pytest tests
+        run: poetry run pytest tests
