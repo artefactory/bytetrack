@@ -64,6 +64,9 @@ def iou_distance(atracks, btracks):
     cost_matrix = 1 - _ious
 
     return cost_matrix
+
+
+def v_iou_distance(atracks, btracks):
     """
     Compute cost based on IoU
     :type atracks: list[STrack]
