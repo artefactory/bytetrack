@@ -40,6 +40,28 @@ def ious(atlbrs, btlbrs):
     return ious
 
 
+def iou_distance(atracks, btracks):
+    """
+    Compute cost based on IoU
+    :type atracks: list[STrack]
+    :type btracks: list[STrack]
+    :rtype cost_matrix np.ndarray
+    """
+
+    if (len(atracks) > 0 and isinstance(atracks[0], np.ndarray)) or (
+        len(btracks) > 0 and isinstance(btracks[0], np.ndarray)
+    ):
+        atlbrs = atracks
+        btlbrs = btracks
+    else:
+        atlbrs = [track.tlbr for track in atracks]
+        btlbrs = [track.tlbr for track in btracks]
+    _ious = ious(atlbrs, btlbrs)
+    cost_matrix = 1 - _ious
+
+    return cost_matrix
+
+
 def fuse_score(cost_matrix, detections):
     if cost_matrix.size == 0:
         return cost_matrix
