@@ -45,6 +45,7 @@ def iou_distance(atracks, btracks):
     Compute cost based on IoU
     :type atracks: list[STrack]
     :type btracks: list[STrack]
+
     :rtype cost_matrix np.ndarray
     """
 
