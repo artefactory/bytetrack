@@ -5,7 +5,7 @@ from bytetracker.basetrack import BaseTrack, TrackState
 from bytetracker.kalman_filter import KalmanFilter
 
 
-def xywh2xyxy(x: np.ndarray) -> np.ndarray:
+def xywh2xyxy(x: np.ndarray):
     """
     Converts bounding boxes from [x, y, w, h] format to [x1, y1, x2, y2] format
 
@@ -25,7 +25,7 @@ def xywh2xyxy(x: np.ndarray) -> np.ndarray:
     return y
 
 
-def xyxy2xywh(x: np.ndarray) -> np.ndarray:
+def xyxy2xywh(x: np.ndarray):
     """
     Converts bounding boxes from [x1, y1, x2, y2] format to [x, y, w, h] format
 
@@ -69,7 +69,7 @@ class STrack(BaseTrack):
         self.mean, self.covariance = self.kalman_filter.predict(mean_state, self.covariance)
 
     @staticmethod
-    def multi_predict(stracks: list["STrack"]) -> None:
+    def multi_predict(stracks: list["STrack"]):
         """
         takes a list of tracks, updates their mean and covariance values, and
         performs a Kalman filter prediction step.
@@ -91,7 +91,7 @@ class STrack(BaseTrack):
                 stracks[i].mean = mean
                 stracks[i].covariance = cov
 
-    def activate(self, kalman_filter: KalmanFilter, frame_id: int) -> None:
+    def activate(self, kalman_filter: KalmanFilter, frame_id: int):
         """
         initializes a new tracklet with a Kalman filter and assigns a track ID and
         state based on the frame ID.
@@ -113,7 +113,7 @@ class STrack(BaseTrack):
         self.frame_id = frame_id
         self.start_frame = frame_id
 
-    def re_activate(self, new_track: "STrack", frame_id: int, new_id: bool = False) -> None:
+    def re_activate(self, new_track: "STrack", frame_id: int, new_id: bool = False):
         """
         Updates a track using Kalman filtering
 
@@ -137,7 +137,7 @@ class STrack(BaseTrack):
         self.score = new_track.score
         self.cls = new_track.cls
 
-    def update(self, new_track: "STrack", frame_id: int) -> None:
+    def update(self, new_track: "STrack", frame_id: int):
         """
         Update a matched track.
 
@@ -225,7 +225,7 @@ class BYTETracker(object):
         self.kalman_filter = KalmanFilter()
         BaseTrack._count = 0
 
-    def update(self, dets: np.ndarray, frame_id: int) -> np.ndarray:
+    def update(self, dets: np.ndarray, frame_id: int):
         """
         Performs object tracking by associating detections with existing tracks and updating their states accordingly.
 
@@ -392,7 +392,7 @@ class BYTETracker(object):
         return outputs
 
 
-def joint_stracks(tlista: list["STrack"], tlistb: list["STrack"]) -> list["STrack"]:
+def joint_stracks(tlista: list["STrack"], tlistb: list["STrack"]):
     """
     Merges two lists of objects based on a specific attribute while
     ensuring no duplicates are added.
@@ -422,7 +422,7 @@ def joint_stracks(tlista: list["STrack"], tlistb: list["STrack"]) -> list["STrac
     return res
 
 
-def sub_stracks(tlista: list["STrack"], tlistb: list["STrack"]) -> list["STrack"]:
+def sub_stracks(tlista: list["STrack"], tlistb: list["STrack"]):
     """
     Returns a list of STrack objects that are present in tlista but not in tlistb.
 
@@ -448,9 +448,7 @@ def sub_stracks(tlista: list["STrack"], tlistb: list["STrack"]) -> list["STrack"
     return list(stracks.values())
 
 
-def remove_duplicate_stracks(
-    stracksa: list["STrack"], stracksb: list["STrack"]
-) -> tuple[list["STrack"], list["STrack"]]:
+def remove_duplicate_stracks(stracksa: list["STrack"], stracksb: list["STrack"]):
     """
     Removes duplicate STrack objects from the input lists based on their frame IDs.
 
