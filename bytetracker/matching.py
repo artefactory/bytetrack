@@ -2,7 +2,21 @@ import lap
 import numpy as np
 
 
-def linear_assignment(cost_matrix, thresh):
+def linear_assignment(cost_matrix: np.ndarray, thresh: float):
+    """
+    Assigns detections to existing tracks based on a cost matrix using linear assignment.
+
+    Parameters
+    ----------
+    cost_matrix : np.ndarray
+        The cost matrix representing the association cost between detections and tracks.
+    thresh : float
+        The threshold for cost matching.
+
+    Returns
+    -------
+    Tuple containing matches, unmatched detections, and unmatched tracks.
+    """
     if cost_matrix.size == 0:
         return (
             np.empty((0, 2), dtype=int),
@@ -22,11 +36,19 @@ def linear_assignment(cost_matrix, thresh):
 
 def ious(atlbrs, btlbrs):
     """
-    Compute cost based on IoU
-    :type atlbrs: list[tlbr] | np.ndarray
-    :type atlbrs: list[tlbr] | np.ndarray
+    Compute cost over Union (IoU) between bounding box pairs
 
-    :rtype ious np.ndarray
+    Parameters
+    ----------
+    atlbrs : Union[list, np.ndarray]
+        The bounding boxes of the first set in (min x, min y, max x, max y) format.
+    btlbrs : Union[list, np.ndarray]
+        The bounding boxes of the second set in (min x, min y, max x, max y) format.
+
+    Returns
+    -------
+    np.ndarray
+        An array containing IoU values for each pair of bounding boxes.
     """
     ious = np.zeros((len(atlbrs), len(btlbrs)), dtype=np.float32)
     if ious.size == 0:
@@ -63,7 +85,22 @@ def iou_distance(atracks, btracks):
     return cost_matrix
 
 
-def fuse_score(cost_matrix, detections):
+def fuse_score(cost_matrix: np.ndarray, detections: np.ndarray):
+    """
+    Fuse detection scores with similarity scores from a cost matrix.
+
+    Parameters
+    ----------
+    cost_matrix : np.ndarray
+        The cost matrix representing the dissimilarity between tracks and detections.
+    detections : np.ndarray
+        The array of detections, each containing a score.
+
+    Returns
+    -------
+    np.ndarray
+        The fused cost matrix, incorporating both similarity scores and detection scores.
+    """
     if cost_matrix.size == 0:
         return cost_matrix
     iou_sim = 1 - cost_matrix
@@ -74,7 +111,7 @@ def fuse_score(cost_matrix, detections):
     return fuse_cost
 
 
-def bbox_ious(boxes, query_boxes):
+def bbox_ious(boxes: np.ndarray, query_boxes: np.ndarray):
     """
     Parameters
     ----------
