@@ -9,9 +9,9 @@ def xywh2xyxy(x):
     """
     converts bounding boxes from [x, y, w, h] format to [x1, y1, x2, y2] format
 
-    param x: (n x 4 array) at [x, y, w, h] format
+    param x(n x 4 array): array at [x, y, w, h] format
 
-    return: y: (n x 4 array) at [x1, y1, x2, y2] format
+    return: y(n x 4 array): array [x1, y1, x2, y2] format
     """
     # Convert nx4 boxes from [x, y, w, h] to [x1, y1, x2, y2] where xy1=top-left, xy2=bottom-right
     y = np.copy(x)
@@ -26,9 +26,9 @@ def xyxy2xywh(x):
     """
     converts bounding boxes from [x1, y1, x2, y2] format to [x, y, w, h] format
 
-    param x: (n x 4 array) at [x1, y1, x2, y2] format
+    param x(n x 4 array): array at [x1, y1, x2, y2] format
 
-    return: y: (n x 4 array) at [x, y, w, h] format
+    return: y(n x 4 array): array [x, y, w, h] format
     """
     y = np.copy(x)
     y[:, 0] = (x[:, 0] + x[:, 2]) / 2  # x center
@@ -214,8 +214,8 @@ class BYTETracker(object):
         performs object tracking by associating detections with existing tracks and updating their states accordingly.
 
         param
-        dets:
-        frame_id: The `frame_id` parameter represents the ID of the current frame in the video
+        dets(n x 6 array): detection boxes of objects
+        frame_id (int): The `frame_id` parameter represents the ID of the current frame in the video
 
         return
         outputs (array): an array of outputs containing bounding box coordinates, track ID, class label, and
@@ -372,6 +372,20 @@ class BYTETracker(object):
 
 
 def joint_stracks(tlista, tlistb):
+    """
+    merges two lists of objects based on a specific attribute while
+    ensuring no duplicates are added.
+
+    :param tlista: It seems like you were about to provide some information about the `tlista`
+    parameter, but the message got cut off. Could you please provide more details or complete the
+    information so that I can assist you further?
+    :param tlistb: It seems like you have not provided the `tlistb` parameter for the `joint_stracks`
+    function. Could you please provide the `tlistb` parameter so that I can assist you further with the
+    function?
+    :return: The function `joint_stracks` returns a list that contains all unique elements from both
+    input lists `tlista` and `tlistb`. Duplicate elements are removed based on the `track_id` attribute
+    of the elements.
+    """
     exists = {}
     res = []
     for t in tlista:
