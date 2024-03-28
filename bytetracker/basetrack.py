@@ -25,13 +25,13 @@ class BaseTrack(object):
         BaseTrack._count += 1
         return BaseTrack._count
 
-    def activate(self):
+    def activate(self, *args):
         raise NotImplementedError
 
     def predict(self):
         raise NotImplementedError
 
-    def update(self):
+    def update(self, *args, **kwargs):
         raise NotImplementedError
 
     def mark_lost(self):
