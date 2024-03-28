@@ -74,7 +74,7 @@ class KalmanFilter(object):
         covariance = np.diag(np.square(std))
         return mean, covariance
 
-    def predict(self, mean, covariance):
+    def predict(self, mean: np.ndarray, covariance: np.ndarray):
         """Run Kalman filter prediction step.
 
         Parameters
@@ -115,7 +115,7 @@ class KalmanFilter(object):
 
         return mean, covariance
 
-    def project(self, mean, covariance):
+    def project(self, mean: np.ndarray, covariance: np.ndarray):
         """Project state distribution to measurement space.
 
         Parameters
@@ -144,7 +144,7 @@ class KalmanFilter(object):
         covariance = np.linalg.multi_dot((self._update_mat, covariance, self._update_mat.T))
         return mean, covariance + innovation_cov
 
-    def multi_predict(self, mean, covariance):
+    def multi_predict(self, mean: np.ndarray, covariance: np.ndarray):
         """Run Kalman filter prediction step (Vectorized version).
         Parameters
         ----------
@@ -185,7 +185,7 @@ class KalmanFilter(object):
 
         return mean, covariance
 
-    def update(self, mean, covariance, measurement):
+    def update(self, mean: np.ndarray, covariance: np.ndarray, measurement: np.ndarray):
         """Run Kalman filter correction step.
 
         Parameters
