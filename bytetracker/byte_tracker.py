@@ -115,8 +115,7 @@ class STrack(BaseTrack):
 
     def re_activate(self, new_track: "STrack", frame_id: int, new_id: bool = False) -> None:
         """
-        Updates a track using Kalman filtering and sets various attributes based
-        on input parameters.
+        Updates a track using Kalman filtering
 
         Parameters
         ----------
@@ -124,7 +123,7 @@ class STrack(BaseTrack):
             The new track object to update.
         frame_id : int
             The frame ID.
-        new_id : bool, optional
+        new_id : bool
             Whether to assign a new ID to the track, by default False.
         """
         self.mean, self.covariance = self.kalman_filter.update(
@@ -177,7 +176,8 @@ class STrack(BaseTrack):
     @property
     # @jit(nopython=True)
     def tlbr(self):
-        """Convert bounding box to format `(min x, min y, max x, max y)`, i.e.,
+        """
+        Convert bounding box to format `(min x, min y, max x, max y)`, i.e.,
         `(top left, bottom right)`.
         """
         ret = self.tlwh.copy()
@@ -187,7 +187,8 @@ class STrack(BaseTrack):
     @staticmethod
     # @jit(nopython=True)
     def tlwh_to_xyah(tlwh):
-        """Convert bounding box to format `(center x, center y, aspect ratio,
+        """
+        Convert bounding box to format `(center x, center y, aspect ratio,
         height)`, where the aspect ratio is `width / height`.
         """
         ret = np.asarray(tlwh).copy()
@@ -224,17 +225,22 @@ class BYTETracker(object):
         self.kalman_filter = KalmanFilter()
         BaseTrack._count = 0
 
-    def update(self, dets, frame_id):
+    def update(self, dets: np.ndarray, frame_id: int) -> np.ndarray:
         """
-        performs object tracking by associating detections with existing tracks and updating their states accordingly.
+        Performs object tracking by associating detections with existing tracks and updating their states accordingly.
 
-        param
-        dets(n x 6 array): detection boxes of objects
-        frame_id (int): The `frame_id` parameter represents the ID of the current frame in the video
+        Parameters
+        ----------
+        dets : np.ndarray
+            Detection boxes of objects in the format (n x 6), where each row contains (x1, y1, x2, y2, score, class).
+        frame_id : int
+            The ID of the current frame in the video.
 
-        return
-        outputs (array): an array of outputs containing bounding box coordinates, track ID, class label, and
-        score for each tracked object.
+        Returns
+        -------
+        np.ndarray
+            An array of outputs containing bounding box coordinates, track ID, class label, and
+            score for each tracked object.
         """
         self.frame_id = frame_id
         activated_starcks = []
@@ -416,7 +422,22 @@ def joint_stracks(tlista: list["STrack"], tlistb: list["STrack"]) -> list["STrac
     return res
 
 
-def sub_stracks(tlista, tlistb):
+def sub_stracks(tlista: list["STrack"], tlistb: list["STrack"]) -> list["STrack"]:
+    """
+    Returns a list of STrack objects that are present in tlista but not in tlistb.
+
+    Parameters
+    ----------
+    tlista : List[STrack]
+        The first list of STrack objects.
+    tlistb : List[STrack]
+        The second list of STrack objects.
+
+    Returns
+    -------
+    List[STrack]
+        A list containing STrack objects present in tlista but not in tlistb.
+    """
     stracks = {}
     for t in tlista:
         stracks[t.track_id] = t
@@ -427,7 +448,24 @@ def sub_stracks(tlista, tlistb):
     return list(stracks.values())
 
 
-def remove_duplicate_stracks(stracksa, stracksb):
+def remove_duplicate_stracks(
+    stracksa: list["STrack"], stracksb: list["STrack"]
+) -> tuple[list["STrack"], list["STrack"]]:
+    """
+    Removes duplicate STrack objects from the input lists based on their frame IDs.
+
+    Parameters
+    ----------
+    stracksa : List[STrack]
+        The first list of STrack objects.
+    stracksb : List[STrack]
+        The second list of STrack objects.
+
+    Returns
+    -------
+    Tuple[List[STrack], List[STrack]]
+        Two lists containing unique STrack objects after removing duplicates.
+    """
     pdist = matching.iou_distance(stracksa, stracksb)
     pairs = np.where(pdist < 0.15)
     dupa, dupb = list(), list()
