@@ -6,6 +6,13 @@ from bytetracker.kalman_filter import KalmanFilter
 
 
 def xywh2xyxy(x):
+    """
+    converts bounding boxes from [x, y, w, h] format to [x1, y1, x2, y2] format
+
+    param x: (n x 4 array) at [x, y, w, h] format
+
+    return: y: (n x 4 array) at [x1, y1, x2, y2] format
+    """
     # Convert nx4 boxes from [x, y, w, h] to [x1, y1, x2, y2] where xy1=top-left, xy2=bottom-right
     y = np.copy(x)
     y[:, 0] = x[:, 0] - x[:, 2] / 2  # top left x
@@ -16,7 +23,13 @@ def xywh2xyxy(x):
 
 
 def xyxy2xywh(x):
-    # Convert nx4 boxes from [x1, y1, x2, y2] to [x, y, w, h] where xy1=top-left, xy2=bottom-right
+    """
+    converts bounding boxes from [x1, y1, x2, y2] format to [x, y, w, h] format
+
+    param x: (n x 4 array) at [x1, y1, x2, y2] format
+
+    return: y: (n x 4 array) at [x, y, w, h] format
+    """
     y = np.copy(x)
     y[:, 0] = (x[:, 0] + x[:, 2]) / 2  # x center
     y[:, 1] = (x[:, 1] + x[:, 3]) / 2  # y center
@@ -39,6 +52,10 @@ class STrack(BaseTrack):
         self.cls = cls
 
     def predict(self):
+        """
+        updates the mean and covariance using a Kalman filter prediction, with a condition
+        based on the state of the track.
+        """
         mean_state = self.mean.copy()
         if self.state != TrackState.Tracked:
             mean_state[7] = 0
@@ -46,6 +63,13 @@ class STrack(BaseTrack):
 
     @staticmethod
     def multi_predict(stracks):
+        """
+        takes a list of tracks, updates their mean and covariance values, and
+        performs a Kalman filter prediction step.
+
+        :param
+        stracks (list): list of STrack objects
+        """
         if len(stracks) > 0:
             multi_mean = np.asarray([st.mean.copy() for st in stracks])
             multi_covariance = np.asarray([st.covariance for st in stracks])
@@ -60,6 +84,15 @@ class STrack(BaseTrack):
                 stracks[i].covariance = cov
 
     def activate(self, kalman_filter, frame_id):
+        """
+        initializes a new tracklet with a Kalman filter and assigns a track ID and
+        state based on the frame ID.
+
+        :param
+        kalman_filter: Kalman filter object
+        frame_id (int): The `frame_id` parameter in the `activate` method represents the identifier of the
+        frame in which the tracklet is being activated.
+        """
         """Start a new tracklet"""
         self.kalman_filter = kalman_filter
         self.track_id = self.next_id()
@@ -73,6 +106,15 @@ class STrack(BaseTrack):
         self.start_frame = frame_id
 
     def re_activate(self, new_track, frame_id, new_id=False):
+        """
+        updates a track using Kalman filtering and sets various attributes based
+        on input parameters.
+
+        :param
+        kalman_filter: Kalman filter object
+        frame_id (int): The `frame_id` parameter in the `activate` method represents the identifier of the
+        frame in which the tracklet is being re_activated.
+        """
         self.mean, self.covariance = self.kalman_filter.update(
             self.mean, self.covariance, self.tlwh_to_xyah(new_track.tlwh)
         )
@@ -168,6 +210,17 @@ class BYTETracker(object):
         BaseTrack._count = 0
 
     def update(self, dets, frame_id):
+        """
+        performs object tracking by associating detections with existing tracks and updating their states accordingly.
+
+        param
+        dets:
+        frame_id: The `frame_id` parameter represents the ID of the current frame in the video
+
+        return
+        outputs (array): an array of outputs containing bounding box coordinates, track ID, class label, and
+        score for each tracked object.
+        """
         self.frame_id = frame_id
         activated_starcks = []
         refind_stracks = []
