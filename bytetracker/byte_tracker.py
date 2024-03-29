@@ -16,7 +16,6 @@ def xywh2xyxy(x: np.ndarray):
     -------
     y: Array [x1, y1, x2, y2] format
     """
-    # Convert nx4 boxes from [x, y, w, h] to [x1, y1, x2, y2] where xy1=top-left, xy2=bottom-right
     y = np.copy(x)
     y[:, 0] = x[:, 0] - x[:, 2] / 2  # top left x
     y[:, 1] = x[:, 1] - x[:, 3] / 2  # top left y
@@ -101,7 +100,6 @@ class STrack(BaseTrack):
         kalman_filter: Kalman filter object
         frame_id (int): The `frame_id` parameter in the `activate` method.
         """
-        """Start a new tracklet"""
         self.kalman_filter = kalman_filter
         self.track_id = self.next_id()
         self.mean, self.covariance = self.kalman_filter.initiate(self.tlwh_to_xyah(self._tlwh))
@@ -429,9 +427,9 @@ def sub_stracks(tlista: list["STrack"], tlistb: list["STrack"]):
     Parameters
     ----------
     tlista : List[STrack]
-        The first list of STrack objects.
+        list of STrack objects.
     tlistb : List[STrack]
-        The second list of STrack objects.
+        list of STrack objects.
 
     Returns
     -------
@@ -455,9 +453,9 @@ def remove_duplicate_stracks(stracksa: list["STrack"], stracksb: list["STrack"])
     Parameters
     ----------
     stracksa : List[STrack]
-        The first list of STrack objects.
+        list of STrack objects.
     stracksb : List[STrack]
-        The second list of STrack objects.
+        list of STrack objects.
 
     Returns
     -------
