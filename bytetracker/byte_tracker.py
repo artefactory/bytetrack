@@ -36,7 +36,6 @@ class STrack(BaseTrack):
         self.is_activated = False
 
         self.score = score
-        self.tracklet_len = 0
         self.cls = cls
 
     def predict(self):
@@ -66,7 +65,6 @@ class STrack(BaseTrack):
         self.track_id = self.next_id()
         self.mean, self.covariance = self.kalman_filter.initiate(self.tlwh_to_xyah(self._tlwh))
 
-        self.tracklet_len = 0
         self.state = TrackState.Tracked
         if frame_id == 1:
             self.is_activated = True
@@ -78,7 +76,6 @@ class STrack(BaseTrack):
         self.mean, self.covariance = self.kalman_filter.update(
             self.mean, self.covariance, self.tlwh_to_xyah(new_track.tlwh)
         )
-        self.tracklet_len = 0
         self.state = TrackState.Tracked
         self.is_activated = True
         self.frame_id = frame_id
@@ -96,7 +93,6 @@ class STrack(BaseTrack):
         :return:
         """
         self.frame_id = frame_id
-        self.tracklet_len += 1
         self.cls = new_track.cls
 
         new_tlwh = new_track.tlwh
@@ -140,23 +136,6 @@ class STrack(BaseTrack):
         ret = np.asarray(tlwh).copy()
         ret[:2] += ret[2:] / 2
         ret[2] /= ret[3]
-        return ret
-
-    def to_xyah(self):
-        return self.tlwh_to_xyah(self.tlwh)
-
-    @staticmethod
-    # @jit(nopython=True)
-    def tlbr_to_tlwh(tlbr):
-        ret = np.asarray(tlbr).copy()
-        ret[2:] -= ret[:2]
-        return ret
-
-    @staticmethod
-    # @jit(nopython=True)
-    def tlwh_to_tlbr(tlwh):
-        ret = np.asarray(tlwh).copy()
-        ret[2:] += ret[:2]
         return ret
 
     def __repr__(self):
@@ -262,7 +241,7 @@ class BYTETracker(object):
             strack_pool[i] for i in u_track if strack_pool[i].state == TrackState.Tracked
         ]
         dists = matching.iou_distance(r_tracked_stracks, detections_second)
-        matches, u_track, u_detection_second = matching.linear_assignment(dists, thresh=0.5)
+        matches, u_track, _ = matching.linear_assignment(dists, thresh=0.5)
         for itracked, idet in matches:
             track = r_tracked_stracks[itracked]
             det = detections_second[idet]
