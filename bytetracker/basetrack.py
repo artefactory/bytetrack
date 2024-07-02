@@ -1,8 +1,3 @@
-from collections import OrderedDict
-
-import numpy as np
-
-
 class TrackState(object):
     New = 0
     Tracked = 1
@@ -17,16 +12,9 @@ class BaseTrack(object):
     is_activated = False
     state = TrackState.New
 
-    history = OrderedDict()
-    features = []
-    curr_feature = None
     score = 0
     start_frame = 0
     frame_id = 0
-    time_since_update = 0
-
-    # multi-camera
-    location = (np.inf, np.inf)
 
     @property
     def end_frame(self):

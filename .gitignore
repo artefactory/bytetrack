@@ -130,3 +130,12 @@ dmypy.json
 
 # Poetry
 poetry.lock
+
+# model
+*.pt
+
+# images
+*.png
+
+# videos
+*.mp4
