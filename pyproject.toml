@@ -2,7 +2,7 @@
 name = "bytetracker"
 authors = ["TomDarmon <tom.darmon@artefact.com>"]
 description = "Maintained fork of bytetrack-pip"
-version = "0.2.0"
+version = "0.0.0"
 readme = "README.md"
 
 
@@ -90,7 +90,7 @@ profile = "black"
 [tool.semantic_release]
 version_variables = ["bytetracker/__init__.py:__version__"]
 version_toml = ["pyproject.toml:tool.poetry.version"]
-branch = "main"
+branch = "fea/pypy_release"
 upload_to_pypi = false
 upload_to_release = true
 build_command = "pip install poetry && poetry build"

@@ -1,10 +1,11 @@
-# This workflow triggers the CI, updates the version, and uploads the release to GitHub and Google Cloud Storage when a push is made to either the 'main' or 'develop' branch.
+# This workflow triggers the CI, updates the version, and uploads the release to GitHub and
+# Google Artifact Registry when a push is made to either the 'main' or 'develop' branch.
 #
 # Workflow Steps:
 #
 # 1. Ci is triggered using the CI workflow defined in .github/workflows/ci.yaml
 # 2. If it succeeds, the version is updated using Python Semantic Release
-# 3. The release is uploaded to GitHub (same step and GitHub action)
+# 3. The release is uploaded to PyPi (same step and GitHub action)
 
 name: CI and Release on main
 
@@ -12,26 +13,38 @@ on:
   push:
     branches:
       - main
+      - fea/pypy_release
 
 jobs:
-  CI:
+  ci:
+    name: CI
     uses: ./.github/workflows/ci.yaml
 
-  Release:
+  release:
+    name: Release
     runs-on: ubuntu-latest
-    concurrency: Release
-    needs: CI
+    concurrency:
+      group: ${{ github.workflow }}-${{ github.ref }}
+      cancel-in-progress: true
+    needs: ci
     permissions:
       id-token: write
       contents: write
+    environment:
+      name: pypi
+      url: https://test.pypi.org/p/bytetracking
 
     steps:
-    - uses: actions/checkout@v4
-      with:
-        fetch-depth: 0
-        token: ${{ secrets.GH_TOKEN }}
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GH_TOKEN }}
 
-    - name: Python Semantic Release
-      uses: python-semantic-release/python-semantic-release@master
-      with:
-        github_token: ${{ secrets.GH_TOKEN }}
+      - name: Python Semantic Release
+        uses: python-semantic-release/python-semantic-release@master
+        with:
+          github_token: ${{ secrets.GH_TOKEN }}
+
+      - name: Publish package distributions to PyPI
+        if: steps.python-semantic-release.outputs.released == 'true'
+        uses: pypa/gh-action-pypi-publish@release/v1
