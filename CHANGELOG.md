@@ -1,6 +1,33 @@
 # CHANGELOG
 
+## v0.3.0 (2024-07-02)
 
+### Feature
+
+* feat: typing functions and adding some docstring  (#26) ([`4fb1460`](https://github.com/artefactory-fr/bytetrack/commit/4fb1460f7e58363749ac9103483e47ad7ad3527c))
+
+* feat: cleaning the code removing dead part  (#25) ([`4d8a20d`](https://github.com/artefactory-fr/bytetrack/commit/4d8a20d35e7d1a9948e0a948bd8a3db7ff08a400))
+
+* feat: adding integration test (#23) ([`95372b9`](https://github.com/artefactory-fr/bytetrack/commit/95372b965ffffd0c0652800ee79a3be50c5af470))
+
+### Fix
+
+* fix: branch name change on CI file (#24) ([`c781a0c`](https://github.com/artefactory-fr/bytetrack/commit/c781a0c33a8dec9c82bd6b047e44229870c007eb))
+
+* fix: adding notebook example of bytetrack with car detection and tracking (#22) ([`0f2f63b`](https://github.com/artefactory-fr/bytetrack/commit/0f2f63b20c765c41d7b781676b32e9c04927e2ec))
+
+* fix: nm/readme (#20)
+
+Co-authored-by: Nicolas &lt;nicolas.mathieu@artefact.com&gt;
+Co-authored-by: Nicolas Mathieu &lt;81897925+nmathieufact@users.noreply.github.com&gt; ([`7ec1476`](https://github.com/artefactory-fr/bytetrack/commit/7ec1476523160a47a12f12571b890762f2fbdbed))
+
+### Unknown
+
+* fea: release 0.3.0 (#28) ([`922f9d6`](https://github.com/artefactory-fr/bytetrack/commit/922f9d60e4840429cf92ac679c3cf75eb828fd27))
+
+* doc: change doc before opensource (#27) ([`54d92ad`](https://github.com/artefactory-fr/bytetrack/commit/54d92ad9e26c34c223a229e103e05166c783636a))
+
+* Sync main / dev  (#19) ([`48e5dca`](https://github.com/artefactory-fr/bytetrack/commit/48e5dcaad578de0048945f0dc2744ae7c119552b))
 
 ## v0.2.0 (2023-12-22)
 
@@ -18,7 +45,6 @@ Co-authored-by: github-actions &lt;github-actions@github.com&gt; ([`c9442e3`](ht
 Co-authored-by: TomDarmon &lt;36815861+TomDarmon@users.noreply.github.com&gt;
 Co-authored-by: github-actions &lt;github-actions@github.com&gt; ([`e8c77a0`](https://github.com/artefactory-fr/bytetrack/commit/e8c77a04138214022a3823637869f58851a5f8ef))
 
-
 ## v0.1.0 (2023-12-19)
 
 ### Feature
@@ -35,7 +61,6 @@ Co-authored-by: github-actions &lt;github-actions@github.com&gt; ([`e8c77a0`](ht
 
 * Tp/add reset (#10) ([`074bb18`](https://github.com/artefactory-fr/bytetrack/commit/074bb18424f7670b0d26d945fa1fefc97faed041))
 
-
 ## v0.0.3 (2023-11-24)
 
 ### Fix
@@ -48,7 +73,6 @@ Co-authored-by: github-actions &lt;github-actions@github.com&gt; ([`e8c77a0`](ht
 
 * fix frame_id in update instead of _ ([`aafc3b7`](https://github.com/artefactory-fr/bytetrack/commit/aafc3b7d7be40534a6e88628302b9478991f533c))
 
-
 ## v0.0.2 (2023-11-13)
 
 ### Fix
@@ -60,7 +84,6 @@ Co-authored-by: TomDarmon &lt;tom.darmon@artefact.com&gt; ([`553d5c1`](https://g
 ### Unknown
 
 * Fix: cython release (#7) ([`d145ef6`](https://github.com/artefactory-fr/bytetrack/commit/d145ef6511c63b9b6fc6e0c6073249320e0d5861))
-
 
 ## v0.0.1 (2023-11-13)
 
